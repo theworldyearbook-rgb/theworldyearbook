@@ -574,11 +574,12 @@ if(mapImg.complete)startMap();
 else{mapImg.addEventListener('load',startMap);mapImg.addEventListener('error',startMap);}
 window.addEventListener('resize',resizeDotCanvas);
 
-function rippleTile(tile){
-  const r=tile.getBoundingClientRect();
-  const ring=document.createElement('div');
-  if(!document.getElementById('rip-style')){const s=document.createElement('style');s.id='rip-style';s.textContent='@keyframes ripO{from{transform:translate(-50%,-50%) scale(1);opacity:.8}to{transform:translate(-50%,-50%) scale(2.5);opacity:0}}';document.head.appendChild(s);}
-  ring.style.cssText=`position:fixed;border-radius:50%;pointer-events:none;border:2px solid var(--accent);z-index:200;animation:ripO .6s ease-out forwards;left:${r.left+r.width/2}px;top:${r.top+r.height/2}px;width:${r.width}px;height:${r.height}px;transform:translate(-50%,-50%)`;
+if (!document.getElementById('rip-style')) {
+  const s = document.createElement('style');
+  s.id = 'rip-style';
+  s.textContent = '@keyframes ripO { from { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } to { transform: translate(-50%, -50%) scale(2.5); opacity: 0; } }';
+  document.head.appendChild(s);
+}
   document.body.appendChild(ring);setTimeout(()=>ring.remove(),700);
 }
 
@@ -653,7 +654,7 @@ function submitTile(){
 
 function buildShareBtns(){
   const container=document.getElementById('share-btns');
-  const url=`https://wallofpeople.com/ref/${pendingRefId}`;
+  const url=`https://theworldyearbook.com/ref/${pendingRefId}`;
   const text=`I just claimed my spot in the The World Yearbook. Get yours before Dec 31st 👉`;
   const xUrl=`https://twitter.com/intent/tweet?text=${encodeURIComponent(text+' '+url)}`;
   const fbUrl=`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`;
@@ -679,18 +680,18 @@ function buildShareBtns(){
 }
 
 function nativeShare(){
-  const url=`https://wallofpeople.com/ref/${pendingRefId}`;
+  const url=`https://theworldyearbook.com/ref/${pendingRefId}`;
   const text=`I just claimed my spot in the The World Yearbook. Get yours before Dec 31st 👉`;
   navigator.share({title:'The World Yearbook',text,url}).catch(()=>{});
 }
 function copyAndOpenTikTok(){
-  const url=`https://wallofpeople.com/ref/${pendingRefId}`;
+  const url=`https://theworldyearbook.com/ref/${pendingRefId}`;
   navigator.clipboard?.writeText(`I just claimed my spot in the The World Yearbook 🌍 Get yours → ${url}`).catch(()=>{});
   toast('Caption copied! Opening TikTok…');
   setTimeout(()=>{window.location.href='tiktok://';setTimeout(()=>window.open('https://www.tiktok.com','_blank'),500);},400);
 }
-function copyRefLink(){navigator.clipboard?.writeText(`https://wallofpeople.com/ref/${pendingRefId}`).catch(()=>{});toast('Link copied! 🔗');}
-function copyLink(){navigator.clipboard?.writeText(`https://wallofpeople.com/ref/${pendingRefId}`).catch(()=>{});const btn=event.target;btn.textContent='Copied ✓';setTimeout(()=>btn.textContent='Copy Link',2000);}
+function copyRefLink(){navigator.clipboard?.writeText(`https://theworldyearbook.com/ref/${pendingRefId}`).catch(()=>{});toast('Link copied! 🔗');}
+function copyLink(){navigator.clipboard?.writeText(`https://theworldyearbook.com/ref/${pendingRefId}`).catch(()=>{});const btn=event.target;btn.textContent='Copied ✓';setTimeout(()=>btn.textContent='Copy Link',2000);}
 function shareAgain(){buildShareBtns();openModal('pending-modal');closeModal('unlocked-modal');}
 
 // ── UNLOCK SIMULATION ─────────────────────────────────────────────────────────
@@ -747,6 +748,8 @@ const fpSpots = Array.from({length: FP_SPOTS}, (_, i) => ({
   auctionEnd: null,
 }));
 
+// Pre-populate a few spots for demo realism
+const FP_DEMO = [];
 
 
 let activeBidSpot = null;
@@ -862,7 +865,7 @@ function placeBid() {
   if(prevName) toast(`${prevName} was outbid on Spot #${activeBidSpot} — no refund issued`);
 }
 
-renderFPGrid();
+
 
 // ── TOAST ─────────────────────────────────────────────────────────────────────
 let toastT;function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),3000);}
