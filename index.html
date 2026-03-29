@@ -235,9 +235,9 @@ footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--text
 
 <!-- STATS -->
 <div class="stats">
-  <div class="stat"><div class="stat-n" id="s-tiles">247</div><div class="stat-l">In the Book</div></div>
-  <div class="stat"><div class="stat-n" id="s-countries">31</div><div class="stat-l">Countries</div></div>
-  <div class="stat"><div class="stat-n" id="s-today">41</div><div class="stat-l">Today</div></div>
+  <div class="stat"><div class="stat-n" id="s-tiles">0</div><div class="stat-l">In the Book</div></div>
+  <div class="stat"><div class="stat-n" id="s-countries">0</div><div class="stat-l">Countries</div></div>
+  <div class="stat"><div class="stat-n" id="s-today">0</div><div class="stat-l">Today</div></div>
   <div class="stat"><div class="stat-n">FREE</div><div class="stat-l">Always Free*</div></div>
 </div>
 
@@ -348,9 +348,9 @@ footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--text
   <div class="founding-bar">
     <div class="founding-meta">
       <span>🔥 Founding 5,000 — <strong>Free to claim, share to unlock</strong></span>
-      <span><strong id="founding-n">247</strong> / 5,000</span>
+      <span><strong id="founding-n">0</strong> / 5,000</span>
     </div>
-    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:4.94%"></div></div>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
   </div>
 
   <!-- Price ladder -->
@@ -472,42 +472,12 @@ if(FLAGS.PAID_TIERS){
 }
 
 // ── PEOPLE DATA ────────────────────────────────────────────────────────────────
-const PEOPLE=[
-  {name:"Maya Rodriguez",loc:"Mexico City 🇲🇽",msg:"Primera generación. Todo para mi familia.",img:1,country:'c-mx'},
-  {name:"James Okafor",loc:"Lagos, Nigeria 🇳🇬",msg:"Building something that outlasts me.",img:2,country:'c-af'},
-  {name:"Yuki Tanaka",loc:"Osaka, Japan 🇯🇵",msg:"千里の道も一歩から。",img:3,country:'c-jp'},
-  {name:"Sarah Kim",loc:"Seoul, South Korea 🇰🇷",msg:"Hello from the other side of the world!",img:4,country:'c-cn'},
-  {name:"Luca Ferretti",loc:"Milan, Italy 🇮🇹",msg:"La vita è bella.",img:5,country:'c-eu'},
-  {name:"Amara Diallo",loc:"Dakar, Senegal 🇸🇳",msg:"Representing everyone who came before me.",img:6,country:'c-af'},
-  {name:"Daniel Park",loc:"Vancouver 🇨🇦",msg:"Skied every mountain in BC. This is my summit.",img:7,country:'c-ca'},
-  {name:"Priya Sharma",loc:"Mumbai, India 🇮🇳",msg:"Software engineer, dog mom, chai addict.",img:8,country:'c-in'},
-  {name:"Tom Eriksson",loc:"Stockholm 🇸🇪",msg:"Somewhere between a startup and a ski trip.",img:9,country:'c-sc'},
-  {name:"Camille Dubois",loc:"Paris, France 🇫🇷",msg:"Art director. Dreamer. Occasional baguette.",img:10,country:'c-eu'},
-  {name:"Marcus Johnson",loc:"Atlanta, GA 🇺🇸",msg:"First in my family. Won't be the last.",img:11,country:'c-us'},
-  {name:"Lin Wei",loc:"Shanghai, China 🇨🇳",msg:"The world is smaller than we think.",img:12,country:'c-cn'},
-  {name:"Fatima Al-Hassan",loc:"Dubai, UAE 🇦🇪",msg:"Engineer by day. Artist by night.",img:13,country:'c-me'},
-  {name:"Carlos Mendez",loc:"Buenos Aires 🇦🇷",msg:"Mate in hand, world at my feet.",img:14,country:'c-br'},
-  {name:"Anna Kowalski",loc:"Warsaw, Poland 🇵🇱",msg:"Left to find myself. Found everything.",img:15,country:'c-eu'},
-  {name:"Aisha Patel",loc:"London, UK 🇬🇧",msg:"Doctor. Dancer. Terrible cook.",img:17,country:'c-uk'},
-  {name:"Bruno Costa",loc:"São Paulo 🇧🇷",msg:"Futebol, código e café. Nessa ordem.",img:18,country:'c-br'},
-  {name:"Oliver Bennett",loc:"Sydney 🇦🇺",msg:"Surfer. Father. Sometimes in that order.",img:20,country:'c-au'},
-  {name:"Kai Nakamura",loc:"Tokyo, Japan 🇯🇵",msg:"I design things nobody asked for but everyone wants.",img:22,country:'c-jp'},
-  {name:"Ahmed Hassan",loc:"Cairo, Egypt 🇪🇬",msg:"3,000 years of history and I'm on a website.",img:26,country:'c-af'},
-  {name:"Kwame Asante",loc:"Accra, Ghana 🇬🇭",msg:"Proud son of Africa. Building for us.",img:28,country:'c-af'},
-  {name:"Viktor Petrov",loc:"Kyiv, Ukraine 🇺🇦",msg:"Still here. Still building.",img:34,country:'c-eu'},
-  {name:"Max Müller",loc:"Berlin, Germany 🇩🇪",msg:"Techno fan. Startup advisor.",img:40,country:'c-eu'},
-  {name:"Charlotte Davies",loc:"Melbourne 🇦🇺",msg:"Best coffee city in the world. Not up for debate.",img:60,country:'c-au'},
-  {name:"Rafael Hernandez",loc:"Miami, FL 🇺🇸",msg:"Cuban-American. Both, always.",img:61,country:'c-us'},
-  {name:"Hiroshi Yamamoto",loc:"Sapporo 🇯🇵",msg:"Ramen shop owner. Life is good.",img:37,country:'c-jp'},
-  {name:"Elena Vasquez",loc:"Madrid, Spain 🇪🇸",msg:"Flamenco, fintech, far too much coffee.",img:23,country:'c-eu'},
-  {name:"Arjun Krishnamurthy",loc:"Bangalore 🇮🇳",msg:"IIT grad turned yogi. Both have their place.",img:44,country:'c-in'},
-  {name:"Mia Hoffman",loc:"Zürich 🇨🇭",msg:"Precision and chocolate. Switzerland delivers.",img:54,country:'c-eu'},
-];
+const PEOPLE=[];
 
-const LOCKED_IDX=[5,12,19,24];
+const LOCKED_IDX=[];
 const EASTER={42:{icon:'🌌',t:'42',m:'The answer to life, the universe, and everything.'},100:{icon:'🎊',t:'Tile #100',m:'You found the 100th person in the 2026 yearbook. They got here first.'}};
 
-const TICKER_MSGS=PEOPLE.map((p,i)=>`<span class="act-item"><span class="act-dot${i%5===0?' green':''}"></span>${p.loc.split(' ').pop()} <strong>${p.name}</strong> joined the yearbook</span>`);
+const TICKER_MSGS=['<span class="act-item"><span class="act-dot"></span>Be the first to join the 2026 World Yearbook!</span>'];
 
 // ── COUNTDOWN ─────────────────────────────────────────────────────────────────
 function updateCountdown(){
@@ -538,18 +508,7 @@ let dotW=960,dotH=480;
 
 // Seed lights from existing PEOPLE data
 // lat/lon approx per person
-const personCoords={
-'Maya Rodriguez':[19.43,-99.13],'James Okafor':[6.45,3.39],
-  'Yuki Tanaka':[34.69,135.50],'Sarah Kim':[37.57,126.98],'Luca Ferretti':[45.46,9.19],
-  'Amara Diallo':[14.72,-17.47],'Daniel Park':[49.28,-123.12],'Priya Sharma':[19.08,72.88],
-  'Tom Eriksson':[59.33,18.07],'Camille Dubois':[48.85,2.35],'Marcus Johnson':[33.75,-84.39],
-  'Lin Wei':[31.23,121.47],'Fatima Al-Hassan':[25.20,55.27],'Carlos Mendez':[-34.60,-58.38],
-  'Anna Kowalski':[52.23,21.01],'Aisha Patel':[51.51,-0.13],'Bruno Costa':[-23.55,-46.63],
-  'Oliver Bennett':[-33.87,151.21],'Kai Nakamura':[35.69,139.69],'Ahmed Hassan':[30.06,31.25],
-  'Kwame Asante':[5.55,-0.20],'Viktor Petrov':[50.45,30.52],'Max Müller':[52.52,13.40],
-  'Charlotte Davies':[-37.81,144.96],'Rafael Hernandez':[25.77,-80.19],'Hiroshi Yamamoto':[43.06,141.35],
-  'Elena Vasquez':[40.42,-3.70],'Arjun Krishnamurthy':[12.97,77.59],'Mia Hoffman':[47.38,8.54],
-};
+const personCoords={};
 
 function latLonToMap(lat,lon){
   // Equirectangular projection
@@ -610,205 +569,12 @@ function addMapLight(lat,lon,isUser=false){
 }
 
 const mapImg=document.getElementById('map-img');
-function startMap(){resizeDotCanvas();animateMap();simulate500();}
+function startMap(){resizeDotCanvas();animateMap();}
 if(mapImg.complete)startMap();
 else{mapImg.addEventListener('load',startMap);mapImg.addEventListener('error',startMap);}
 window.addEventListener('resize',resizeDotCanvas);
 
-// Major city coords for realistic simulation
-const SIM_CITIES=[
-  [40.71,-74.01],[51.51,-0.13],[48.85,2.35],[52.52,13.40],[55.76,37.62],[59.91,10.75],[55.68,12.57],[60.17,24.94],
-  [41.01,28.95],[50.85,4.35],[47.38,8.54],[45.46,9.19],[41.90,12.48],[38.72,-9.14],[40.42,-3.70],[43.30,5.37],
-  [53.48,-2.24],[53.33,-6.25],[35.69,139.69],[34.69,135.50],[37.57,126.98],[31.23,121.47],[39.91,116.39],[22.32,114.17],
-  [1.35,103.82],[13.75,100.50],[3.14,101.69],[14.60,121.00],[10.82,106.63],[19.08,72.88],[28.64,77.22],[12.97,77.59],
-  [17.39,78.49],[13.09,80.27],[22.57,88.37],[23.73,90.40],[6.93,79.85],[33.69,73.06],[31.52,74.36],[24.87,67.01],
-  [30.06,31.25],[36.81,10.18],[33.89,35.50],[24.69,46.72],[25.20,55.27],[26.07,50.56],[51.53,45.01],[41.30,69.24],
-  [43.25,76.94],[55.02,82.93],[56.85,60.61],[59.95,30.32],[-33.87,151.21],[-37.81,144.96],[-27.47,153.03],[-31.95,115.86],
-  [-36.86,174.77],[-1.29,36.82],[-26.20,28.04],[6.37,2.40],[9.05,7.49],[5.56,-0.20],[14.69,-17.44],[4.36,18.55],
-  [15.55,32.53],[-4.32,15.32],[-25.97,32.57],[18.55,-72.34],[18.01,-76.79],[10.49,-66.88],[4.71,-74.07],[-12.05,-77.04],
-  [-16.50,-68.15],[-0.23,-78.51],[-34.60,-58.38],[-23.55,-46.63],[-22.90,-43.17],[-33.46,-70.65],[-2.17,-79.92],
-  [43.70,-79.42],[45.51,-73.56],[49.25,-123.12],[51.04,-114.06],[53.55,-113.49],[47.61,-122.33],[37.77,-122.42],
-  [34.05,-118.24],[33.45,-112.07],[29.76,-95.37],[41.85,-87.65],[42.36,-71.06],[25.77,-80.19],[39.95,-75.17],
-  [38.90,-77.04],[32.78,-96.80],[29.95,-90.07],[36.17,-86.78],[45.52,-122.68],[47.61,-122.33],[21.31,-157.86],
-  [64.13,-21.94],[52.37,4.90],[48.21,16.37],[47.50,19.04],[44.80,20.47],[50.45,30.52],[54.69,25.28],[56.95,24.11],
-  [59.44,24.75],[60.39,5.32],[63.43,10.39],[57.16,65.53],[54.99,82.90],[56.01,92.87],[52.29,104.30],[62.03,129.73],
-  [43.11,131.90],[51.18,71.45],[43.24,76.89],[41.30,69.27],[38.56,68.77],[37.94,58.38],[23.59,58.59],[15.55,32.53],
-  [12.37,43.14],[9.02,38.75],[2.05,45.34],[-4.04,39.67],[-1.29,36.82],[-11.71,43.24],[-17.37,-12.37],
-  [33.57,-7.59],[34.03,-6.85],[36.81,10.18],[36.72,3.09],[30.06,31.25],[31.20,29.92],[33.35,44.42],[24.68,46.72],
-  [21.49,39.19],[15.35,44.21],[12.36,43.14],[11.58,43.15],[0.39,9.45],[4.37,18.56],[6.14,1.21],
-  [22.91,43.18],[14.51,-14.47],[12.10,-15.05],[8.48,-13.23],[5.85,-55.17],[6.80,-58.16],[4.94,-52.33],
-  [17.12,-61.85],[18.07,-63.06],[18.47,-69.90],[10.65,-61.52],[6.81,-5.28],[7.37,-3.96],[9.59,-13.58],
-];
-
-function simulate500(){
-  let i=0;
-  const interval=setInterval(()=>{
-    if(i>=500){clearInterval(interval);return;}
-    // Pick a random city with some jitter
-    const city=SIM_CITIES[Math.floor(Math.random()*SIM_CITIES.length)];
-    const lat=city[0]+(Math.random()-.5)*3;
-    const lon=city[1]+(Math.random()-.5)*3;
-    addMapLight(lat,lon,false);
-    i++;
-  },80); // 500 lights over ~40 seconds, staggered
-}
-
-// Geolocation
-fetch('https://ipapi.co/json/')
-  .then(r=>r.json())
-  .then(d=>{
-    if(d.latitude&&d.longitude){
-      userLoc=[d.latitude,d.longitude];
-      addMapLight(d.latitude,d.longitude,true);
-    }
-    if(d.city&&d.country_name)document.getElementById('inp-loc').placeholder=`${d.city}, ${d.country_name}`;
-  }).catch(()=>{});
-
-// ── ACTIVITY TICKER ───────────────────────────────────────────────────────────
-const track=document.getElementById('activity-track');
-const items=[...TICKER_MSGS,...TICKER_MSGS].join('');
-track.innerHTML=items;
-
-// ── PRICING ───────────────────────────────────────────────────────────────────
-const FOUNDING=5000;
-let tileCount=247;
-
-function fmtPrice(n){return n===0?'FREE':`$${n}`;}
-function tierNum(n){return n<=FOUNDING?0:Math.ceil((n-FOUNDING)/1000);}
-function tierPrice(n){return tierNum(n);}
-
-function updatePricing(n){
-  tileCount=n;
-  const price=tierPrice(n);
-  document.getElementById('s-tiles').textContent=n.toLocaleString();
-  document.getElementById('s-price').textContent=fmtPrice(price);
-  document.getElementById('founding-n').textContent=Math.min(n,FOUNDING).toLocaleString();
-  document.getElementById('prog-fill').style.width=Math.min((n/FOUNDING)*100,100)+'%';
-  document.getElementById('tier-pill').textContent='FREE — Founding Period';
-  document.getElementById('modal-tile-n').textContent='#'+(n+1);
-  document.getElementById('modal-pill').innerHTML=`FREE <span class="price-note">founding period · yours forever</span>`;
-  document.getElementById('submit-btn').textContent='Get My Yearbook Spot →';
-  document.getElementById('hero-cta').textContent='Claim My Spot — Free ↗';
-  renderLadder(tierNum(n));
-}
-
-function renderLadder(active){
-  const el=document.getElementById('price-ladder');
-  let html=`<div class="ladder-step${active===0?' active':''}">
-    <div class="ls-price">FREE</div><div class="ls-range">#1–5,000</div>
-    ${active===0?'<div class="active-dot"></div>':''}
-  </div>`;
-  for(let t=1;t<=8;t++){
-    const r1=(5000+(t-1)*1000+1).toLocaleString();const r2=(5000+t*1000).toLocaleString();
-    html+=`<div class="ladder-step${active===t?' active':''}">
-      <div class="ls-price">$${t}</div><div class="ls-range">#${r1}–${r2}</div>
-      ${active===t?'<div class="active-dot"></div>':''}
-    </div>`;
-  }
-  el.innerHTML=html;
-}
-
-// ── TILE GRID ─────────────────────────────────────────────────────────────────
-const grid=document.getElementById('wall-grid');
-let rendered=0;
-
-function createFaceCanvas(person){
-  const c=document.createElement('canvas');c.width=72;c.height=72;
-  const ctx=c.getContext('2d');
-  const img=new Image();img.crossOrigin='anonymous';
-  img.onload=()=>{ctx.save();ctx.beginPath();ctx.rect(0,0,72,72);ctx.clip();ctx.drawImage(img,0,0,72,72);ctx.restore();};
-  img.onerror=()=>{
-    const g=ctx.createLinearGradient(0,0,72,72);
-    const COLS=[['#e84393','#c0306e'],['#4a90e2','#2a6ab5'],['#7b68ee','#5548cc'],['#00b894','#008f74'],['#e17055','#b85230'],['#fdcb6e','#d4a230']];
-    const[c1,c2]=COLS[person.img%COLS.length];g.addColorStop(0,c1);g.addColorStop(1,c2);
-    ctx.fillStyle=g;ctx.fillRect(0,0,72,72);
-    ctx.fillStyle='rgba(255,255,255,.9)';ctx.font='700 20px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText(person.name.split(' ').map(w=>w[0]).join('').slice(0,2),36,37);
-  };
-  img.src=`https://i.pravatar.cc/150?img=${person.img}`;
-  return c;
-}
-
-function createFilledTile(person,idx){
-  const div=document.createElement('div');
-  const isLocked=LOCKED_IDX.includes(idx);
-  div.className='tile'+(isLocked?' locked':'');
-  const c=createFaceCanvas(person);
-  div.appendChild(c);
-  if(isLocked){
-    const ring=document.createElement('div');ring.className='lock-ring';
-    const icon=document.createElement('div');icon.className='lock-icon';icon.textContent='🔒';
-    ring.appendChild(icon);div.appendChild(ring);
-  }
-  div.addEventListener('mouseenter',e=>showTip(e,person,idx+1,false,isLocked));
-  div.addEventListener('mousemove',moveTip);
-  div.addEventListener('mouseleave',hideTip);
-  div.addEventListener('click',()=>{if(EASTER[idx+1])showEgg(idx+1);else openBuyModal();});
-  return div;
-}
-
-function createEmptyTile(n){
-  const div=document.createElement('div');div.className='tile empty';
-  div.innerHTML='<div class="empty-plus">+</div>';
-  div.addEventListener('mouseenter',e=>showTip(e,null,n,true,false));
-  div.addEventListener('mousemove',moveTip);
-  div.addEventListener('mouseleave',hideTip);
-  div.addEventListener('click',openBuyModal);
-  return div;
-}
-
-function renderTiles(count=300){
-  for(let i=0;i<count;i++){
-    if(rendered<PEOPLE.length){grid.appendChild(createFilledTile(PEOPLE[rendered],rendered));}
-    else if(rendered<tileCount){grid.appendChild(createFilledTile(PEOPLE[rendered%PEOPLE.length],rendered));}
-    else{grid.appendChild(createEmptyTile(rendered+1));}
-    rendered++;
-  }
-}
-
-function loadMore(){renderTiles(200);}
-renderTiles(350);
-updatePricing(tileCount);
-
-// Live simulation
-setInterval(()=>{
-  if(Math.random()>.6){
-    tileCount++;updatePricing(tileCount);
-    const p=PEOPLE[Math.floor(Math.random()*PEOPLE.length)];
-    const empties=grid.querySelectorAll('.tile.empty');
-    if(empties.length>0){
-      const target=empties[Math.floor(Math.random()*Math.min(5,empties.length))];
-      const newTile=createFilledTile(p,tileCount-1);
-      newTile.classList.add('new-tile');
-      grid.replaceChild(newTile,target);
-      rippleTile(newTile);
-    }
-    // Add light on map for this submission
-    const coords=personCoords[p.name];
-    if(coords)addMapLight(coords[0],coords[1]);
-    else{
-      // Random lat/lon on land for unknown
-      const[lat,lon]=[Math.random()*120-40,Math.random()*300-150];
-      addMapLight(lat,lon);
-    }
-    addActivity(p);
-    document.getElementById('s-today').textContent=parseInt(document.getElementById('s-today').textContent)+1;
-    document.getElementById('s-countries').textContent=Math.min(195,parseInt(document.getElementById('s-countries').textContent)+Math.round(Math.random()*.5));
-  }
-},3800);
-
-function addActivity(p){
-  const track=document.getElementById('activity-track');
-  const item=document.createElement('span');item.className='act-item';
-  item.innerHTML=`<span class="act-dot green"></span>${p.loc.split(' ').pop()} <strong>${p.name}</strong> just joined the yearbook`;
-  track.prepend(item);
-}
-
-function rippleTile(tile){
-  const r=tile.getBoundingClientRect();
-  const ring=document.createElement('div');
-  ring.style.cssText=`position:fixed;border-radius:50%;pointer-events:none;border:2px solid var(--accent);z-index:200;animation:ripO .6s ease-out forwards;left:${r.left+r.width/2}px;top:${r.top+r.height/2}px;width:${r.width}px;height:${r.height}px;transform:translate(-50%,-50%)`;
-  if(!document.getElementById('rip-style')){const s=document.createElement('style');s.id='rip-style';s.textContent='@keyframes ripO{from{transform:translate(-50%,-50%) scale(1);opacity:.8}to{transform:translate(-50%,-50%) scale(2.5);opacity:0}}';document.head.appendChild(s);}
+';document.head.appendChild(s);}
   document.body.appendChild(ring);setTimeout(()=>ring.remove(),700);
 }
 
@@ -977,20 +743,7 @@ const fpSpots = Array.from({length: FP_SPOTS}, (_, i) => ({
   auctionEnd: null,
 }));
 
-// Pre-populate a few spots for demo realism
-const FP_DEMO = [
-  {id:1, name:'TechCorp', msg:'techcorp.io', bid:142, bidders:8, img:36},
-  {id:2, name:'Alex Chen', msg:'Founder & CEO', bid:95, bidders:5, img:22},
-  {id:3, name:'Sarah Kim', msg:'Seoul → World', bid:78, bidders:4, img:4},
-  {id:5, name:'Max Müller', msg:'Berlin Startup Hub', bid:55, bidders:3, img:40},
-  {id:8, name:'Priya Sharma', msg:'Building in public', bid:40, bidders:2, img:8},
-  {id:12, name:'Oliver Bennett', msg:'Sydney · Surf & Build', bid:25, bidders:2, img:20},
-];
-FP_DEMO.forEach(d => {
-  const s = fpSpots[d.id-1];
-  s.name = d.name; s.msg = d.msg; s.bid = d.bid;
-  s.bidders = d.bidders; s.img = d.img; s.heldSince = Date.now() - Math.random()*3600000;
-});
+
 
 let activeBidSpot = null;
 
@@ -1105,41 +858,14 @@ function placeBid() {
   if(prevName) toast(`${prevName} was outbid on Spot #${activeBidSpot} — no refund issued`);
 }
 
-// Simulate live bidding activity
-function simBidActivity() {
-  setInterval(() => {
-    if(Math.random() > 0.7) {
-      // Random spot gets a bid bump
-      const occupied = fpSpots.filter(s => s.name);
-      if(!occupied.length) return;
-      const spot = occupied[Math.floor(Math.random() * occupied.length)];
-      const oldBid = spot.bid;
-      spot.bid += FP_INCREMENT + Math.floor(Math.random() * 20);
-      spot.bidders++;
-      // Update just that tile's bid display without full re-render
-      const el = document.getElementById(`fp-spot-${spot.id}`);
-      if(el) {
-        const bidEl = el.querySelector('.fp-tile-bid');
-        const bidderEl = el.querySelector('.fp-tile-bidders');
-        if(bidEl) bidEl.textContent = '$' + spot.bid;
-        if(bidderEl) bidderEl.textContent = spot.bidders + ' bid' + (spot.bidders !== 1 ? 's' : '');
-        // Flash
-        const imgWrap = el.querySelector('.fp-tile-img');
-        if(imgWrap) { imgWrap.style.borderColor = '#ffd700'; setTimeout(() => imgWrap.style.borderColor = '', 800); }
-      }
-    }
-  }, 6000);
-}
-
 renderFPGrid();
-simBidActivity();
 
 // ── TOAST ─────────────────────────────────────────────────────────────────────
 let toastT;function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),3000);}
 
 // ── STAT ANIMATION ────────────────────────────────────────────────────────────
 function animN(id,target,dur=1400){const el=document.getElementById(id);if(!el)return;let st=null;(function step(ts){if(!st)st=ts;const p=Math.min((ts-st)/dur,1);el.textContent=Math.floor(p*target).toLocaleString();if(p<1)requestAnimationFrame(step);else el.textContent=target.toLocaleString();})();}
-animN('s-tiles',247);animN('s-countries',31);animN('s-today',41);
+
 </script>
 </body>
 </html>
