@@ -574,7 +574,11 @@ if(mapImg.complete)startMap();
 else{mapImg.addEventListener('load',startMap);mapImg.addEventListener('error',startMap);}
 window.addEventListener('resize',resizeDotCanvas);
 
-';document.head.appendChild(s);}
+function rippleTile(tile){
+  const r=tile.getBoundingClientRect();
+  const ring=document.createElement('div');
+  if(!document.getElementById('rip-style')){const s=document.createElement('style');s.id='rip-style';s.textContent='@keyframes ripO{from{transform:translate(-50%,-50%) scale(1);opacity:.8}to{transform:translate(-50%,-50%) scale(2.5);opacity:0}}';document.head.appendChild(s);}
+  ring.style.cssText=`position:fixed;border-radius:50%;pointer-events:none;border:2px solid var(--accent);z-index:200;animation:ripO .6s ease-out forwards;left:${r.left+r.width/2}px;top:${r.top+r.height/2}px;width:${r.width}px;height:${r.height}px;transform:translate(-50%,-50%)`;
   document.body.appendChild(ring);setTimeout(()=>ring.remove(),700);
 }
 
