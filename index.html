@@ -451,8 +451,14 @@ footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--text
   <p style="margin-top:5px">One tile. Your face. The whole world.</p>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 'use strict';
+
+// ── SUPABASE ──────────────────────────────────────────────────────────────────
+const SB_URL = 'https://hmbkdfkyzpolsczhneja.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtYmtkZmt5enBvbHNjemhuZWphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5NzkxNzQsImV4cCI6MjA4NzU1NTE3NH0.MjhALfdP-bPk0CLR_0mj2vQx8yM82eZLyrBiwiKdocY';
+const sb = supabase.createClient(SB_URL, SB_KEY);
 
 // ── FEATURE FLAGS ─────────────────────────────────────────────────────────────
 // Flip these to true when ready to monetize
@@ -640,16 +646,67 @@ function previewFile(file){
 
 // ── SUBMIT ────────────────────────────────────────────────────────────────────
 const isMobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-function submitTile(){
+
+async function uploadPhoto(file, refId) {
+  const ext = file.name.split('.').pop() || 'jpg';
+  const path = `tiles/${refId}.${ext}`;
+  const { error } = await sb.storage.from('wyb-photos').upload(path, file, { upsert: true, contentType: file.type });
+  if (error) throw error;
+  const { data } = sb.storage.from('wyb-photos').getPublicUrl(path);
+  return data.publicUrl;
+}
+
+async function submitTile(){
   const name=document.getElementById('inp-name').value.trim();
+  const loc=document.getElementById('inp-loc').value.trim();
+  const msg=document.getElementById('inp-msg').value.trim();
   if(!name){document.getElementById('inp-name').focus();return;}
-  pendingName=name;pendingRefId=Math.random().toString(36).substring(2,8).toUpperCase();
-  document.getElementById('ref-code').textContent=pendingRefId;
-  document.getElementById('share-uname').textContent=name;
-  document.getElementById('share-tile-label').textContent=`Tile #${tileCount+1} · The World Yearbook`;
-  if(!pendingFile)document.getElementById('share-avatar').src=`https://i.pravatar.cc/150?img=${Math.floor(Math.random()*70)+1}`;
-  closeModal('buy-modal');openModal('pending-modal');
-  buildShareBtns();startUnlockSim();
+
+  const btn=document.getElementById('submit-btn');
+  btn.textContent='Saving…';btn.disabled=true;
+
+  try {
+    pendingName=name;
+    pendingRefId=Math.random().toString(36).substring(2,8).toUpperCase();
+
+    // Upload photo if provided
+    let photoUrl = null;
+    if(pendingFile){
+      try { photoUrl = await uploadPhoto(pendingFile, pendingRefId); } catch(e){ console.warn('Photo upload failed',e); }
+    }
+
+    // Save submission to Supabase
+    const { error } = await sb.from('wyb_tiles').insert({
+      ref_code: pendingRefId,
+      name,
+      location: loc || null,
+      message: msg || null,
+      photo_url: photoUrl,
+      status: 'pending'
+    });
+    if(error) throw error;
+
+    // Update UI
+    document.getElementById('ref-code').textContent=pendingRefId;
+    document.getElementById('share-uname').textContent=name;
+    document.getElementById('share-tile-label').textContent=`Tile #${tileCount+1} · The World Yearbook`;
+    if(photoUrl){
+      document.getElementById('pending-preview-img').src=photoUrl;
+      document.getElementById('share-avatar').src=photoUrl;
+    } else {
+      const fallback=`https://i.pravatar.cc/150?img=${Math.floor(Math.random()*70)+1}`;
+      document.getElementById('pending-preview-img').src=fallback;
+      document.getElementById('share-avatar').src=fallback;
+    }
+
+    closeModal('buy-modal');openModal('pending-modal');
+    buildShareBtns();startUnlockPolling();
+  } catch(err){
+    console.error('Submit error',err);
+    toast('Something went wrong — please try again');
+  } finally {
+    btn.textContent='Get My Yearbook Spot →';btn.disabled=false;
+  }
 }
 
 function buildShareBtns(){
@@ -694,25 +751,56 @@ function copyRefLink(){navigator.clipboard?.writeText(`https://theworldyearbook.
 function copyLink(){navigator.clipboard?.writeText(`https://theworldyearbook.com/ref/${pendingRefId}`).catch(()=>{});const btn=event.target;btn.textContent='Copied ✓';setTimeout(()=>btn.textContent='Copy Link',2000);}
 function shareAgain(){buildShareBtns();openModal('pending-modal');closeModal('unlocked-modal');}
 
-// ── UNLOCK SIMULATION ─────────────────────────────────────────────────────────
-function startUnlockSim(){
+// ── UNLOCK POLLING (real) ─────────────────────────────────────────────────────
+let unlockPollInterval = null;
+
+function startUnlockPolling(){
   document.getElementById('unlock-prog').style.display='block';
-  const delay=5000+Math.random()*8000;
-  setTimeout(()=>{
-    document.getElementById('click-count').textContent='1';
-    document.getElementById('unlock-bar').style.width='100%';
-    setTimeout(unlock,600);
-  },delay);
+  // Update status dot to waiting state
+  document.getElementById('status-dot').className='status-dot';
+  document.getElementById('status-txt').innerHTML='<strong>Waiting for your share</strong> — tile locked until someone clicks your link';
+
+  // Poll every 4 seconds for real click
+  unlockPollInterval = setInterval(async () => {
+    try {
+      const { data } = await sb.from('wyb_tiles')
+        .select('status,click_count')
+        .eq('ref_code', pendingRefId)
+        .single();
+      if(!data) return;
+      const clicks = data.click_count || 0;
+      document.getElementById('click-count').textContent = clicks;
+      if(clicks > 0) document.getElementById('unlock-bar').style.width = '100%';
+      if(data.status === 'unlocked'){
+        clearInterval(unlockPollInterval);
+        unlockPollInterval = null;
+        setTimeout(unlock, 400);
+      }
+    } catch(e){ /* ignore poll errors */ }
+  }, 4000);
 }
-function unlock(){
+
+async function unlock(){
   closeModal('pending-modal');openModal('unlocked-modal');launchConfetti();
   tileCount++;updatePricing(tileCount);
-  const p={name:pendingName,loc:'Earth 🌍',msg:'In the The World Yearbook.',img:Math.floor(Math.random()*70)+1,country:'c-us'};
+
+  // Fetch the real tile data
+  let p = {name:pendingName,loc:'Earth 🌍',msg:'In the The World Yearbook.',img:null,country:'c-us'};
+  try {
+    const { data } = await sb.from('wyb_tiles').select('*').eq('ref_code',pendingRefId).single();
+    if(data){
+      p = {name:data.name,loc:data.location||'Earth 🌍',msg:data.message||'In the The World Yearbook.',img:data.photo_url,country:'c-us'};
+    }
+  } catch(e){}
+
   const tile=createFilledTile(p,tileCount-1);
   const empties=grid.querySelectorAll('.tile.empty');
   if(empties[0])grid.replaceChild(tile,empties[0]);
   rippleTile(tile);addActivity(p);
   toast(`🔓 ${pendingName}'s tile just went live!`);
+
+  // Refresh tile count from DB
+  loadTiles();
 }
 
 // ── EASTER EGG ────────────────────────────────────────────────────────────────
@@ -872,6 +960,94 @@ let toastT;function toast(msg){const t=document.getElementById('toast');t.textCo
 
 // ── STAT ANIMATION ────────────────────────────────────────────────────────────
 function animN(id,target,dur=1400){const el=document.getElementById(id);if(!el)return;let st=null;(function step(ts){if(!st)st=ts;const p=Math.min((ts-st)/dur,1);el.textContent=Math.floor(p*target).toLocaleString();if(p<1)requestAnimationFrame(step);else el.textContent=target.toLocaleString();})();}
+
+// ── REF LINK HANDLER ─────────────────────────────────────────────────────────
+// When someone visits /ref/ABCDEF, record the click and unlock the tile
+async function handleRefClick(){
+  const path = window.location.pathname;
+  const match = path.match(/^\/ref\/([A-Z0-9]+)$/i);
+  if(!match) return;
+  const refCode = match[1].toUpperCase();
+
+  try {
+    // Record the click
+    await sb.from('wyb_ref_clicks').insert({ ref_code: refCode });
+
+    // Increment click count and unlock if first click
+    const { data: tile } = await sb.from('wyb_tiles').select('click_count,status').eq('ref_code',refCode).single();
+    if(tile){
+      const newCount = (tile.click_count || 0) + 1;
+      const updates = { click_count: newCount };
+      if(tile.status === 'pending' && newCount >= 1){
+        updates.status = 'unlocked';
+        updates.unlocked_at = new Date().toISOString();
+      }
+      await sb.from('wyb_tiles').update(updates).eq('ref_code', refCode);
+    }
+  } catch(e){ console.warn('Ref click error', e); }
+
+  // Redirect to homepage after recording click
+  window.history.replaceState({}, '', '/');
+}
+
+// ── LOAD REAL TILES FROM DB ───────────────────────────────────────────────────
+async function loadTiles(){
+  try {
+    const { data: tiles, error } = await sb.from('wyb_tiles')
+      .select('*')
+      .eq('status','unlocked')
+      .order('unlocked_at', {ascending: true})
+      .limit(500);
+    if(error || !tiles || tiles.length === 0) return;
+
+    tileCount = tiles.length;
+    updatePricing(tileCount);
+    animN('s-tiles', tileCount);
+
+    // Count unique countries (by location string for now)
+    const countries = new Set(tiles.map(t => t.location?.split(',').pop()?.trim()).filter(Boolean));
+    animN('s-countries', countries.size);
+
+    // Count today
+    const today = new Date().toDateString();
+    const todayCount = tiles.filter(t => new Date(t.unlocked_at).toDateString() === today).length;
+    animN('s-today', todayCount);
+
+    // Render tiles into grid
+    const empties = grid.querySelectorAll('.tile.empty');
+    tiles.forEach((t, i) => {
+      const p = {
+        name: t.name,
+        loc: t.location || 'Earth 🌍',
+        msg: t.message || 'Part of the 2026 World Yearbook.',
+        img: t.photo_url,
+        country: 'c-us'
+      };
+      const tile = createFilledTile(p, i);
+      if(empties[i]) grid.replaceChild(tile, empties[i]);
+      else grid.appendChild(tile);
+    });
+
+    // Add activity items
+    tiles.slice(-5).reverse().forEach(t => {
+      addActivity({name: t.name, loc: t.location || 'Earth 🌍', msg: t.message || ''});
+    });
+
+    // Add map lights (random coords for now — future: geocode location)
+    tiles.forEach(() => {
+      const lat = (Math.random() * 140) - 70;
+      const lon = (Math.random() * 360) - 180;
+      addMapLight(lat, lon, false);
+    });
+
+  } catch(e){ console.warn('loadTiles error', e); }
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+(async function init(){
+  await handleRefClick();
+  await loadTiles();
+})();
 
 </script>
 </body>
