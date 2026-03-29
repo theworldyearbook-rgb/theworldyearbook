@@ -1224,17 +1224,8 @@ async function handleRefClick(){
   if(!match)return;
   const refCode=match[1].toUpperCase();
   try {
-    await sb.from('wyb_ref_clicks').insert({ref_code:refCode});
-    const {data:tile}=await sb.from('wyb_tiles').select('click_count,status').eq('ref_code',refCode).single();
-    if(tile){
-      const newCount=(tile.click_count||0)+1;
-      const updates={click_count:newCount};
-      if(tile.status==='pending'&&newCount>=1){
-        updates.status='unlocked';
-        updates.unlocked_at=new Date().toISOString();
-      }
-      await sb.from('wyb_tiles').update(updates).eq('ref_code',refCode);
-    }
+    // Use server-side RPC — anon cannot directly update tile status
+    await sb.rpc('process_ref_click',{p_ref_code:refCode});
   } catch(e){console.warn('Ref click error',e);}
   window.history.replaceState({},'','/');
 }
