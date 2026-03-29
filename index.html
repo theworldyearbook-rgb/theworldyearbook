@@ -492,6 +492,17 @@ const LOCKED_IDX=[5,12,19,24];
 const EASTER={42:{icon:'🌌',t:'42',m:'The answer to life, the universe, and everything.'},100:{icon:'🎊',t:'Tile #100',m:'You found the 100th person in the 2026 yearbook. They got here first.'}};
 
 const TICKER_MSGS=['<span class="act-item"><span class="act-dot"></span>Be the first to join the 2026 World Yearbook!</span>'];
+function seedTicker(tiles){
+  const track=document.getElementById('activity-track');
+  if(!track)return;
+  if(!tiles||tiles.length===0){track.innerHTML=[...TICKER_MSGS,...TICKER_MSGS].join('');return;}
+  const items=tiles.slice().reverse().map(t=>{
+    const loc=t.country||t.location||'the world';
+    return '<span class="act-item"><span class="act-dot green"></span>🌍 <strong>'+t.name+'</strong> from '+loc+' joined the yearbook</span>';
+  });
+  track.innerHTML=[...items,...items].join('');
+}
+
 
 // ── COUNTDOWN ─────────────────────────────────────────────────────────────────
 function updateCountdown(){
@@ -615,9 +626,7 @@ fetch('https://ipapi.co/json/')
   }).catch(()=>{});
 
 // ── ACTIVITY TICKER ───────────────────────────────────────────────────────────
-const track=document.getElementById('activity-track');
-const items=[...TICKER_MSGS,...TICKER_MSGS].join('');
-track.innerHTML=items;
+seedTicker([]);
 
 // ── PRICING ───────────────────────────────────────────────────────────────────
 const FOUNDING=5000;
@@ -1191,6 +1200,7 @@ async function loadRealTiles(){
     const todayCount=tiles.filter(t=>t.unlocked_at&&new Date(t.unlocked_at).toDateString()===today).length;
     animN('s-today',todayCount);
     // Add real tiles to wall
+    seedTicker(tiles);
     tiles.forEach((t,i)=>{
       const p={name:t.name,loc:t.location||'Earth 🌍',msg:t.message||'Part of the 2026 World Yearbook.',photoUrl:t.photo_url,img:i%6,country:'c-us'};
       const tile=createFilledTile(p,i);
