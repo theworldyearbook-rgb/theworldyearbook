@@ -263,7 +263,7 @@ footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--text
   <div class="map-wrap" id="map-wrap">
     <div class="map-bg">
       <!-- Earth at night map — local copy -->
-      <img src="/earth-night.jpg" alt="Earth at night" id="map-img" style="border-radius:10px"/>
+      <img src="https://eoimages.gsfc.nasa.gov/images/imagerecords/144000/144898/BlackMarble_2016_01deg.jpg" crossorigin="anonymous" alt="Earth at night" id="map-img" style="border-radius:10px"/>
       <canvas id="dot-canvas"></canvas>
     </div>
   </div>
@@ -604,19 +604,18 @@ function fmtPrice(n){return n===0?'FREE':`$${n}`;}
 function tierNum(n){return n<=FOUNDING?0:Math.ceil((n-FOUNDING)/1000);}
 function tierPrice(n){return tierNum(n);}
 
+function el(id){return document.getElementById(id);}
 function updatePricing(n){
   tileCount=n;
-  const price=tierPrice(n);
-  document.getElementById('s-tiles').textContent=n.toLocaleString();
-  document.getElementById('s-price').textContent=fmtPrice(price);
-  document.getElementById('founding-n').textContent=Math.min(n,FOUNDING).toLocaleString();
-  document.getElementById('prog-fill').style.width=Math.min((n/FOUNDING)*100,100)+'%';
-  document.getElementById('tier-pill').textContent='FREE — Founding Period';
-  document.getElementById('modal-tile-n').textContent='#'+(n+1);
-  document.getElementById('modal-pill').innerHTML=`FREE <span class="price-note">founding period · yours forever</span>`;
-  document.getElementById('submit-btn').textContent='Get My Yearbook Spot →';
-  document.getElementById('hero-cta').textContent='Claim My Spot — Free ↗';
-  renderLadder(tierNum(n));
+  if(el('s-tiles'))el('s-tiles').textContent=n.toLocaleString();
+  if(el('founding-n'))el('founding-n').textContent=Math.min(n,FOUNDING).toLocaleString();
+  if(el('prog-fill'))el('prog-fill').style.width=Math.min((n/FOUNDING)*100,100)+'%';
+  if(el('tier-pill'))el('tier-pill').textContent='FREE — Founding Period';
+  if(el('modal-tile-n'))el('modal-tile-n').textContent='#'+(n+1);
+  if(el('modal-pill'))el('modal-pill').innerHTML='FREE <span class="price-note">founding period · yours forever</span>';
+  if(el('submit-btn'))el('submit-btn').textContent='Get My Yearbook Spot →';
+  if(el('hero-cta'))el('hero-cta').textContent='Claim My Spot — Free ↗';
+  if(typeof renderLadder==='function')renderLadder(tierNum(n));
 }
 
 function renderLadder(active){
@@ -698,8 +697,8 @@ function renderTiles(count=300){
 }
 
 function loadMore(){renderTiles(200);}
-renderTiles(200);  // all empty — real submissions fill in
-updatePricing(tileCount);
+renderTiles(200);
+try{updatePricing(tileCount);}catch(e){}
 
 // Live simulation disabled — map lights on real submissions only
 
@@ -751,7 +750,11 @@ function moveTip(e){
 function hideTip(){document.getElementById('tip').classList.remove('show');}
 
 // ── MODAL HELPERS ─────────────────────────────────────────────────────────────
-function openBuyModal(){openModal('buy-modal');}
+function openBuyModal(){
+  if(el('modal-tile-n'))el('modal-tile-n').textContent='#'+(tileCount+1);
+  if(el('modal-pill'))el('modal-pill').innerHTML='FREE <span class="price-note">founding period · yours forever</span>';
+  openModal('buy-modal');
+}
 function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
 function closeModal(id){document.getElementById(id).classList.remove('open');if(!document.querySelector('.overlay.open'))document.body.style.overflow='';}
 function handleOC(e,id){if(e.target===document.getElementById(id))closeModal(id);}
@@ -901,7 +904,8 @@ function startUnlockPolling(){
 
 async function unlock(){
   closeModal('pending-modal');openModal('unlocked-modal');launchConfetti();
-  tileCount++;updatePricing(tileCount);
+  tileCount++;
+  try{updatePricing(tileCount);}catch(e){}
   let p={name:pendingName,loc:'Earth 🌍',msg:'In the The World Yearbook.',img:Math.floor(Math.random()*70)+1,country:'c-us'};
   try {
     const {data}=await sb.from('wyb_tiles').select('*').eq('ref_code',pendingRefId).single();
