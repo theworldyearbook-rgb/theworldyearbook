@@ -263,7 +263,7 @@ footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--text
   <div class="map-wrap" id="map-wrap">
     <div class="map-bg">
       <!-- Earth at night map — local copy -->
-      <img src="https://eoimages.gsfc.nasa.gov/images/imagerecords/144000/144898/BlackMarble_2016_01deg.jpg" crossorigin="anonymous" alt="Earth at night" id="map-img" style="border-radius:10px"/>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/The_earth_at_night.jpg/1280px-The_earth_at_night.jpg" crossorigin="anonymous" alt="Earth at night" id="map-img" style="border-radius:10px"/>
       <canvas id="dot-canvas"></canvas>
     </div>
   </div>
@@ -654,8 +654,11 @@ function createFaceCanvas(person){
   }
   img.onload=()=>{ctx.save();ctx.beginPath();ctx.rect(0,0,72,72);ctx.clip();ctx.drawImage(img,0,0,72,72);ctx.restore();};
   img.onerror=drawFallback;
-  if(person.photoUrl){img.src=person.photoUrl;}
-  else{drawFallback();}
+  if(person.photoUrl && person.photoUrl.startsWith('http')){
+    img.src=person.photoUrl;
+  } else {
+    drawFallback();
+  }
   return c;
 }
 
