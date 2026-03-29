@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The World Yearbook — 2026</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --accent:#ff4d4d;--accent2:#ff8c42;--bg:#0a0a0a;--surface:#111;--border:#1e1e1e;--text:#f0f0f0;--muted:#555;
+}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;overflow-x:hidden}
+
+/* ── HERO ── */
+.hero{text-align:center;padding:52px 20px 28px;position:relative}
+.year-badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:.65rem;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:20px}
+.hero h1{font-size:clamp(2.4rem,7vw,5rem);font-weight:900;letter-spacing:-2.5px;line-height:1.02;margin-bottom:14px}
+.hero h1 .yr{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:1.05rem;color:var(--muted);max-width:480px;margin:0 auto 10px;line-height:1.65}
+.deadline{font-size:.78rem;color:#3a3a3a;letter-spacing:.5px;margin-bottom:28px}
+.deadline strong{color:#555}
+.cta-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;padding:15px 32px;border-radius:9px;font-size:1rem;font-weight:800;cursor:pointer;transition:opacity .2s,transform .15s;letter-spacing:.2px}
+.btn-primary:hover{opacity:.87;transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border);padding:14px 26px;border-radius:9px;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-ghost:hover{border-color:#444;color:var(--text)}
+.hero-note{font-size:.72rem;color:#2e2e2e;margin-top:8px}
+
+/* ── STATS ── */
+.stats{display:flex;justify-content:center;gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface)}
+.stat{flex:1;max-width:160px;text-align:center;padding:16px 10px;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-n{font-size:1.5rem;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.stat-l{font-size:.58rem;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted);margin-top:3px}
+
+/* ── COUNTDOWN ── */
+.countdown-bar{background:linear-gradient(135deg,rgba(255,77,77,.12),rgba(255,140,66,.08));border-top:1px solid rgba(255,77,77,.15);border-bottom:1px solid rgba(255,77,77,.15);padding:12px 20px;text-align:center}
+.countdown-label{font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:6px;font-weight:700}
+.countdown-digits{display:flex;justify-content:center;gap:12px}
+.cd-block{text-align:center}
+.cd-num{font-size:1.6rem;font-weight:900;color:var(--text);line-height:1;font-variant-numeric:tabular-nums}
+.cd-unit{font-size:.52rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.cd-sep{font-size:1.4rem;font-weight:300;color:#2a2a2a;align-self:flex-start;margin-top:4px}
+
+/* ── WORLD MAP ── */
+.map-section{padding:24px 0 0}
+.map-header{text-align:center;padding:0 20px 14px}
+.map-header h2{font-size:1.1rem;font-weight:800;margin-bottom:4px}
+.map-header p{font-size:.78rem;color:var(--muted)}
+.map-wrap{position:relative;width:100%;max-width:960px;margin:0 auto;padding:0 12px;line-height:0}
+.map-bg{width:100%;display:block;border-radius:10px;border:1px solid #1a1a1a;position:relative}
+.map-bg img{width:100%;height:auto;display:block;border-radius:10px}
+#dot-canvas{position:absolute;inset:0;width:100%;height:100%;border-radius:10px}
+.map-legend{display:flex;gap:16px;justify-content:center;padding:10px 0 18px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:.68rem;color:var(--muted)}
+.legend-dot{width:8px;height:8px;border-radius:50%}
+
+/* ── FRONT PAGE ROW ── */
+.front-page-section{padding:0}
+.fp-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;flex-wrap:wrap;gap:8px;background:linear-gradient(135deg,rgba(255,215,0,.06),rgba(255,140,0,.04));border-top:1px solid rgba(255,215,0,.2);border-bottom:1px solid rgba(255,215,0,.1)}
+.fp-title{display:flex;align-items:center;gap:10px}
+.fp-crown{font-size:1.2rem}
+.fp-title h2{font-size:.95rem;font-weight:900;color:#fff}
+.fp-title p{font-size:.7rem;color:#888;margin-top:1px}
+.fp-badge{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;font-size:.6rem;font-weight:900;padding:5px 12px;border-radius:20px;letter-spacing:.5px;text-transform:uppercase;white-space:nowrap}
+.fp-disclaimer{width:100%;font-size:.62rem;color:#444;padding:0 0 4px;line-height:1.4}
+.fp-disclaimer strong{color:#666}
+.fp-grid{display:flex;overflow-x:auto;gap:4px;padding:10px 12px 14px;-webkit-overflow-scrolling:touch;scrollbar-width:none;background:linear-gradient(135deg,rgba(255,215,0,.03),rgba(0,0,0,0))}
+.fp-grid::-webkit-scrollbar{display:none}
+.fp-tile{flex-shrink:0;width:82px;position:relative;cursor:pointer;transition:transform .18s}
+.fp-tile:hover{transform:scale(1.08);z-index:20}
+.fp-tile-img{width:82px;height:82px;border-radius:6px;overflow:hidden;border:2px solid rgba(255,215,0,.4);position:relative;background:var(--surface);transition:border-color .2s}
+.fp-tile:hover .fp-tile-img{border-color:#ffd700;box-shadow:0 0 16px rgba(255,215,0,.3)}
+.fp-tile-img img,.fp-tile-img canvas{width:100%;height:100%;object-fit:cover;display:block}
+.fp-tile.empty-fp .fp-tile-img{border:2px dashed rgba(255,215,0,.2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px}
+.fp-tile.empty-fp:hover .fp-tile-img{border-color:rgba(255,215,0,.5);background:rgba(255,215,0,.04)}
+.fp-empty-icon{font-size:1.3rem;opacity:.4}
+.fp-empty-label{font-size:.52rem;color:#444;text-align:center;line-height:1.3}
+.fp-tile-meta{padding:4px 2px 0}
+.fp-tile-name{font-size:.6rem;font-weight:700;color:#ccc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fp-tile-bid{font-size:.58rem;color:#ffd700;font-weight:700;margin-top:1px}
+.fp-tile-bidders{font-size:.52rem;color:#444;margin-top:1px}
+.fp-tile.occupied .fp-tile-img{border-color:rgba(255,215,0,.5)}
+.crown-badge{position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-size:.8rem;z-index:5;filter:drop-shadow(0 1px 3px rgba(0,0,0,.8))}
+.fp-outbid-flash{animation:outbidFlash .6s ease}
+@keyframes outbidFlash{0%,100%{border-color:rgba(255,77,77,.4)}50%{border-color:#ff4d4d;box-shadow:0 0 20px rgba(255,77,77,.5)}}
+
+/* ── LIVE ACTIVITY ── */
+.activity-bar{background:#000;border-top:1px solid var(--border);border-bottom:1px solid var(--border);height:36px;display:flex;align-items:center;overflow:hidden}
+.activity-label{background:linear-gradient(135deg,var(--accent),var(--accent2));padding:0 14px;height:100%;display:flex;align-items:center;font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;white-space:nowrap;flex-shrink:0}
+.activity-track{display:flex;gap:48px;white-space:nowrap;animation:scroll 40s linear infinite;padding-left:24px}
+.activity-track:hover{animation-play-state:paused}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.act-item{font-size:.72rem;color:#444;display:inline-flex;align-items:center;gap:6px}
+.act-dot{width:4px;height:4px;background:var(--accent);border-radius:50%;flex-shrink:0}
+.act-dot.green{background:#00c875}
+
+/* ── FACE WALL ── */
+.wall-section{padding:16px 0 0}
+.wall-header{display:flex;align-items:center;justify-content:space-between;padding:0 16px 12px;flex-wrap:wrap;gap:8px}
+.wall-header h2{font-size:.95rem;font-weight:800}
+.wall-header p{font-size:.72rem;color:var(--muted)}
+.tier-pill{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:.65rem;font-weight:800;padding:5px 12px;border-radius:20px;letter-spacing:.5px}
+
+/* Price ladder */
+.price-ladder{display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;background:#000;border-bottom:1px solid var(--border);padding:10px 12px;gap:0;scrollbar-width:none}
+.price-ladder::-webkit-scrollbar{display:none}
+.ladder-step{display:flex;flex-direction:column;align-items:center;padding:4px 14px;border-right:1px solid var(--border);min-width:68px;flex-shrink:0}
+.ladder-step:last-child{border-right:none}
+.ls-price{font-weight:900;font-size:.82rem;color:#333}
+.ls-range{font-size:.55rem;color:#252525;margin-top:2px;white-space:nowrap}
+.ladder-step.active .ls-price{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:.9rem}
+.ladder-step.active .ls-range{color:#666}
+.active-dot{width:5px;height:5px;background:var(--accent);border-radius:50%;margin-top:4px;animation:blink 1.4s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* Founding bar */
+.founding-bar{padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--border)}
+.founding-meta{display:flex;justify-content:space-between;font-size:.72rem;margin-bottom:6px}
+.founding-meta span{color:var(--muted)}
+.founding-meta strong{color:var(--text)}
+.prog-bar{height:4px;background:#1a1a1a;border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:3px;transition:width .4s}
+
+/* Tile grid */
+.wall-grid{display:grid;grid-template-columns:repeat(auto-fill,72px);gap:3px;justify-content:center;padding:8px 8px 30px}
+.tile{width:72px;height:72px;border-radius:4px;overflow:hidden;position:relative;cursor:pointer;transition:transform .18s,box-shadow .18s;flex-shrink:0}
+.tile:hover{transform:scale(1.38);z-index:100;border-radius:6px;box-shadow:0 8px 32px rgba(0,0,0,.8),0 0 0 2px var(--accent)}
+.tile img,.tile canvas{width:100%;height:100%;object-fit:cover;display:block}
+.tile.locked img{filter:blur(5px) brightness(.45)}
+.lock-ring{position:absolute;inset:0;border:2px solid rgba(255,77,77,.4);border-radius:4px;display:flex;align-items:center;justify-content:center;animation:lockP 2s infinite}
+@keyframes lockP{0%,100%{border-color:rgba(255,77,77,.4)}50%{border-color:rgba(255,77,77,.85)}}
+.lock-icon{font-size:22px;filter:drop-shadow(0 1px 3px rgba(0,0,0,.8))}
+.tile.empty{background:var(--surface);border:1px dashed #1e1e1e;display:flex;align-items:center;justify-content:center}
+.tile.empty:hover{border-color:var(--accent)}
+.empty-plus{color:#1e1e1e;font-size:22px;font-weight:200;transition:color .15s}
+.tile.empty:hover .empty-plus{color:var(--accent)}
+
+/* Tooltip */
+.tip{position:fixed;background:#0d0d0d;border:1px solid #222;border-radius:10px;padding:11px 13px;min-width:175px;max-width:210px;pointer-events:none;opacity:0;transition:opacity .12s;z-index:999;box-shadow:0 8px 32px rgba(0,0,0,.9)}
+.tip.show{opacity:1}
+.tip-name{font-weight:800;font-size:.85rem;margin-bottom:2px}
+.tip-loc{font-size:.7rem;color:var(--muted);margin-bottom:5px}
+.tip-msg{font-size:.75rem;color:#bbb;line-height:1.45;font-style:italic}
+.tip-num{font-size:.62rem;color:#333;margin-top:7px}
+.tip.buy .tip-name{color:var(--accent)}
+
+/* ── MODAL ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s;padding:16px}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;width:100%;max-width:440px;position:relative;max-height:92vh;overflow-y:auto}
+.modal-x{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer}
+.modal-x:hover{color:var(--text)}
+.modal h2{font-size:1.45rem;font-weight:900;margin-bottom:4px}
+.modal-sub{color:var(--muted);font-size:.85rem;margin-bottom:20px;line-height:1.5}
+.price-pill{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:1rem;font-weight:800;padding:9px 18px;border-radius:8px;margin-bottom:18px}
+.price-note{font-size:.7rem;opacity:.8;font-weight:400}
+.upload-zone{border:2px dashed var(--border);border-radius:10px;padding:22px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;margin-bottom:13px}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--accent);background:rgba(255,77,77,.04)}
+.up-icon{font-size:1.8rem;margin-bottom:6px}
+.up-text{font-size:.82rem;color:var(--muted)}
+.up-text strong{color:var(--text)}
+#preview-img{width:100%;border-radius:8px;margin-top:8px;display:none;max-height:160px;object-fit:cover}
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:.68rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.fg input,.fg textarea,.fg select{width:100%;background:#181818;border:1px solid var(--border);border-radius:7px;color:var(--text);font-size:.9rem;padding:9px 12px;outline:none;transition:border-color .2s;font-family:inherit}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--accent)}
+.fg textarea{resize:vertical;min-height:64px}
+.modal-footer{text-align:center;font-size:.65rem;color:var(--muted);margin-top:10px}
+
+/* ── PENDING / SHARE MODAL ── */
+.pending-preview{width:90px;height:90px;border-radius:10px;overflow:hidden;margin:0 auto 14px;position:relative;border:2px solid var(--accent)}
+.pending-preview img{width:100%;height:100%;object-fit:cover;filter:blur(5px) brightness(.45)}
+.pending-preview .lock-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2rem}
+.ref-box{background:#0d0d0d;border:1px solid var(--border);border-radius:8px;padding:10px 13px;font-size:.72rem;color:var(--muted);word-break:break-all;margin:12px 0;font-family:monospace}
+.ref-box span{color:var(--accent)}
+.share-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:14px}
+.btn-x{background:#000;border:1px solid #333;color:#fff;padding:11px 18px;border-radius:8px;font-weight:700;font-size:.82rem;cursor:pointer;display:flex;align-items:center;gap:7px;transition:background .2s}
+.btn-x:hover{background:#111}
+.btn-tt{background:linear-gradient(135deg,#010101,#1a1a2e);border:1px solid #333;color:#fff;padding:11px 18px;border-radius:8px;font-weight:700;font-size:.82rem;cursor:pointer;display:flex;align-items:center;gap:7px;transition:opacity .2s}
+.btn-tt:hover{opacity:.85}
+.btn-fb{background:#1877f2;border:none;color:#fff;padding:11px 18px;border-radius:8px;font-weight:700;font-size:.82rem;cursor:pointer;display:flex;align-items:center;gap:7px;transition:opacity .2s}
+.btn-fb:hover{opacity:.88}
+.btn-native{background:linear-gradient(135deg,#5856d6,#007aff);color:#fff;border:none;padding:11px 20px;border-radius:8px;font-weight:700;font-size:.85rem;cursor:pointer;display:flex;align-items:center;gap:7px;transition:opacity .2s;width:100%;justify-content:center}
+.status-row{display:flex;align-items:center;gap:8px;background:#0d0d0d;border:1px solid var(--border);border-radius:8px;padding:11px 13px;margin-bottom:14px}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:blink 1.2s infinite;flex-shrink:0}
+.status-dot.green{background:#00c875;animation:none}
+.status-txt{font-size:.8rem;color:var(--muted)}
+.status-txt strong{color:var(--text)}
+.unlock-bar-wrap{height:3px;background:#1a1a1a;border-radius:2px;margin-top:6px;overflow:hidden}
+.unlock-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),#00c875);width:0%;transition:width .4s}
+
+/* ── UNLOCKED MODAL ── */
+.share-card{background:#0d0d0d;border:1px solid #222;border-radius:12px;padding:22px;text-align:center;margin-bottom:16px}
+.share-avatar{width:70px;height:70px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);margin:0 auto 10px;display:block}
+.share-name{font-size:1.05rem;font-weight:800;margin-bottom:2px}
+.share-tile{font-size:.72rem;color:var(--muted);margin-bottom:8px}
+.share-tag{font-size:.82rem;color:var(--accent);font-weight:700}
+
+/* ── CONFETTI ── */
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:9999;display:none}
+
+/* ── TOAST ── */
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);background:#111;border:1px solid var(--accent);color:var(--text);padding:11px 20px;border-radius:10px;font-size:.85rem;font-weight:600;z-index:9000;transition:transform .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;box-shadow:0 8px 32px rgba(0,0,0,.8)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ── FOOTER ── */
+footer{text-align:center;padding:32px 20px;border-top:1px solid var(--border);color:var(--muted);font-size:.72rem}
+footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--text)}
+
+@media(max-width:600px){
+  .wall-grid{grid-template-columns:repeat(auto-fill,58px);gap:2px}
+  .tile{width:58px;height:58px}
+  .stats{flex-wrap:wrap}.stat{min-width:80px}
+  .modal{padding:20px}
+  .share-btns{flex-direction:column}.share-btns button{width:100%;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="year-badge">🌍 The World Yearbook</div>
+  <h1>This is your chance to be<br>part of the <span class="yr">2026</span> World Yearbook</h1>
+  <p>Make your submission before the clock runs out. One tile. Your face. The entire world, together.</p>
+  <p class="deadline">Submissions close <strong>December 31, 2026 at 11:59 PM</strong></p>
+  <div class="cta-row">
+    <button class="btn-primary" id="hero-cta" onclick="openBuyModal()">Claim My Spot — Free ↗</button>
+    <button class="btn-ghost" onclick="document.getElementById('wall-anchor').scrollIntoView({behavior:'smooth'})">See the Wall ↓</button>
+  </div>
+  <div class="hero-note">Free during our founding period · Share to unlock your tile</div>
+  <div style="font-size:.65rem;color:#2a2a2a;margin-top:6px">*Free submissions available for a limited time during launch. Paid tiers coming soon.</div>
+</header>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-n" id="s-tiles">247</div><div class="stat-l">In the Book</div></div>
+  <div class="stat"><div class="stat-n" id="s-countries">31</div><div class="stat-l">Countries</div></div>
+  <div class="stat"><div class="stat-n" id="s-today">41</div><div class="stat-l">Today</div></div>
+  <div class="stat"><div class="stat-n">FREE</div><div class="stat-l">Always Free*</div></div>
+</div>
+
+<!-- COUNTDOWN -->
+<div class="countdown-bar">
+  <div class="countdown-label">⏳ Yearbook closes in</div>
+  <div class="countdown-digits">
+    <div class="cd-block"><div class="cd-num" id="cd-d">277</div><div class="cd-unit">Days</div></div>
+    <div class="cd-sep">:</div>
+    <div class="cd-block"><div class="cd-num" id="cd-h">04</div><div class="cd-unit">Hours</div></div>
+    <div class="cd-sep">:</div>
+    <div class="cd-block"><div class="cd-num" id="cd-m">22</div><div class="cd-unit">Min</div></div>
+    <div class="cd-sep">:</div>
+    <div class="cd-block"><div class="cd-num" id="cd-s">08</div><div class="cd-unit">Sec</div></div>
+  </div>
+</div>
+
+<!-- WORLD MAP -->
+<div class="map-section">
+  <div class="map-header">
+    <h2>People joining from everywhere</h2>
+    <p>Each light is a real submission — watch the world light up</p>
+  </div>
+  <div class="map-wrap" id="map-wrap">
+    <div class="map-bg">
+      <!-- Earth at night map — local copy -->
+      <img src="earth-night.jpg" alt="Earth at night" id="map-img" style="border-radius:10px"/>
+      <canvas id="dot-canvas"></canvas>
+    </div>
+  </div>
+  <div class="map-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#fff;box-shadow:0 0 4px #fff"></div>Submission dot</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent);box-shadow:0 0 4px var(--accent)"></div>📍 You</div>
+  </div>
+</div>
+
+<!-- FRONT PAGE ROW -->
+<div class="front-page-section" id="front-page-section" style="display:none">
+  <div class="fp-header">
+    <div class="fp-title">
+      <div class="fp-crown">👑</div>
+      <div>
+        <h2>The Front Page — 20 Spots</h2>
+        <p>Top row of the 2026 Yearbook. Highest bidder holds the spot.</p>
+      </div>
+    </div>
+    <div class="fp-badge">Rolling Auction · Live</div>
+    <div class="fp-disclaimer">
+      <strong>⚠️ No refunds.</strong> Bids are non-refundable. Your spot is yours as long as you hold the highest bid. When you're outbid, your spot goes to the new top bidder — no credit, no refund. Bid only what you're willing to lose. 30-min sniper protection: a new bid in the last 30 min extends the window by 30 min.
+    </div>
+  </div>
+  <div class="fp-grid" id="fp-grid"></div>
+</div>
+
+<!-- BID MODAL -->
+<div class="overlay" id="bid-modal" style="display:none" onclick="handleOC(event,'bid-modal')">
+  <div class="modal" style="max-width:420px">
+    <button class="modal-x" onclick="closeModal('bid-modal')">✕</button>
+    <h2>👑 Bid for the Front Page</h2>
+    <p class="modal-sub" id="bid-modal-sub">Spot #1 · Current bid: <strong id="bid-current">$0</strong> · <strong id="bid-count">0</strong> bidders</p>
+
+    <div style="background:#0d0d0d;border:1px solid #222;border-radius:10px;padding:14px;margin-bottom:18px">
+      <div style="font-size:.7rem;color:#555;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">How it works</div>
+      <div style="font-size:.8rem;color:#888;line-height:1.6">
+        • Your photo goes in the <strong style="color:#ccc">top row</strong> — seen by everyone<br>
+        • You hold the spot <strong style="color:#ccc">as long as you're top bidder</strong><br>
+        • If outbid, spot goes to new leader — <strong style="color:var(--accent)">no refund</strong><br>
+        • Minimum bid: <strong style="color:#ccc" id="bid-min-show">$10</strong>
+      </div>
+    </div>
+
+    <div class="fg">
+      <label>Your Bid (USD)</label>
+      <div style="position:relative">
+        <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:1rem">$</span>
+        <input type="number" id="bid-amount" min="10" step="5" placeholder="e.g. 25" style="padding-left:28px"/>
+      </div>
+      <div style="font-size:.68rem;color:#444;margin-top:4px" id="bid-hint">Minimum: $10 · Must beat current bid by at least $5</div>
+    </div>
+
+    <div class="fg">
+      <label>Your Name (shown on tile)</label>
+      <input type="text" id="bid-name" placeholder="e.g. Alex Chen"/>
+    </div>
+    <div class="fg">
+      <label>Your Message</label>
+      <input type="text" id="bid-msg" placeholder="e.g. CEO of Acme · acme.com"/>
+    </div>
+
+    <div style="background:rgba(255,77,77,.06);border:1px solid rgba(255,77,77,.15);border-radius:8px;padding:11px 13px;margin-bottom:16px;font-size:.75rem;color:#888;line-height:1.5">
+      ⚠️ <strong style="color:#aaa">Bids are non-refundable.</strong> By placing a bid you accept that your payment is final regardless of outcome. If outbid, your funds are not returned.
+    </div>
+
+    <button class="btn-primary" style="width:100%;padding:14px;font-size:1rem" onclick="placeBid()" id="bid-submit-btn">Place Bid →</button>
+    <p class="modal-footer">Stripe checkout · SSL secured · Non-refundable</p>
+  </div>
+</div>
+
+<!-- LIVE ACTIVITY TICKER -->
+<div class="activity-bar">
+  <div class="activity-label">🔴 Live</div>
+  <div style="flex:1;overflow:hidden"><div class="activity-track" id="activity-track"></div></div>
+</div>
+
+<!-- WALL OF FACES -->
+<div id="wall-anchor">
+  <!-- Founding bar -->
+  <div class="founding-bar">
+    <div class="founding-meta">
+      <span>🔥 Founding 5,000 — <strong>Free to claim, share to unlock</strong></span>
+      <span><strong id="founding-n">247</strong> / 5,000</span>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:4.94%"></div></div>
+  </div>
+
+  <!-- Price ladder -->
+  <div class="price-ladder" id="price-ladder" style="display:none"></div>
+
+  <!-- Wall header -->
+  <div class="wall-header">
+    <div>
+      <h2>The 2026 The World Yearbook</h2>
+      <p>Hover any tile to see who's in the yearbook</p>
+    </div>
+    <div class="tier-pill" id="tier-pill">FREE — Founding Spot</div>
+  </div>
+
+  <!-- Grid -->
+  <div class="wall-grid" id="wall-grid"></div>
+  <div style="text-align:center;padding:0 0 24px"><button class="btn-ghost" style="padding:10px 24px;font-size:.82rem" onclick="loadMore()">Load More</button></div>
+</div>
+
+<!-- TOOLTIP -->
+<div class="tip" id="tip">
+  <div class="tip-name" id="tip-name"></div>
+  <div class="tip-loc" id="tip-loc"></div>
+  <div class="tip-msg" id="tip-msg"></div>
+  <div class="tip-num" id="tip-num"></div>
+</div>
+
+<!-- BUY MODAL -->
+<div class="overlay" id="buy-modal" onclick="handleOC(event,'buy-modal')">
+  <div class="modal">
+    <button class="modal-x" onclick="closeModal('buy-modal')">✕</button>
+    <h2>Add Yourself to the Yearbook</h2>
+    <p class="modal-sub">Tile <strong id="modal-tile-n">#248</strong> · Closes Dec 31, 2026 · Share to unlock</p>
+    <div class="price-pill" id="modal-pill">FREE <span class="price-note">founding spot · yours forever</span></div>
+    <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-in').click()" ondrop="onDrop(event)" ondragover="onDO(event)" ondragleave="onDL(event)">
+      <div class="up-icon" id="up-icon">📷</div>
+      <div class="up-text" id="up-text"><strong>Upload your photo</strong><br>Drag & drop or click<br><small style="color:#2a2a2a">JPG, PNG · Max 5MB</small></div>
+      <img id="preview-img"/>
+    </div>
+    <input type="file" id="file-in" accept="image/*" style="display:none" onchange="onFS(event)"/>
+    <div class="fg"><label>Your Name</label><input type="text" id="inp-name" placeholder="e.g. Alex Chen"/></div>
+    <div class="fg"><label>Country / City</label><input type="text" id="inp-loc" placeholder="e.g. Tokyo, Japan" id="inp-loc"/></div>
+    <div class="fg"><label>Your Message (shown on hover)</label><textarea id="inp-msg" placeholder="e.g. &quot;Living proof that every face has a story.&quot;"></textarea></div>
+    <button class="btn-primary" id="submit-btn" style="width:100%;padding:14px;font-size:1rem" onclick="submitTile()">Get My Yearbook Spot →</button>
+    <p class="modal-footer">Free to claim · Share once to unlock · <a href="#" style="color:var(--muted);text-decoration:underline">Guidelines</a></p>
+  </div>
+</div>
+
+<!-- PENDING / SHARE TO UNLOCK MODAL -->
+<div class="overlay" id="pending-modal" onclick="handleOC(event,'pending-modal')">
+  <div class="modal" style="max-width:400px;text-align:center">
+    <button class="modal-x" onclick="closeModal('pending-modal')">✕</button>
+    <h2 style="margin-bottom:5px">Almost there! 🔒</h2>
+    <p class="modal-sub">Share your yearbook tile to unlock it — one post is all it takes.</p>
+    <div class="pending-preview">
+      <img id="pending-preview-img" src="https://i.pravatar.cc/150?img=1"/>
+      <div class="lock-overlay">🔒</div>
+    </div>
+    <div class="status-row" id="status-row">
+      <div class="status-dot" id="status-dot"></div>
+      <div class="status-txt" id="status-txt"><strong>Waiting for your share</strong> — tile locked until someone clicks your link</div>
+    </div>
+    <div id="unlock-prog" style="display:none;margin-bottom:14px">
+      <div style="font-size:.75rem;color:var(--muted);margin-bottom:4px">Link clicks: <strong id="click-count">0</strong> — needs 1 to unlock</div>
+      <div class="unlock-bar-wrap"><div class="unlock-bar-fill" id="unlock-bar"></div></div>
+    </div>
+    <div class="ref-box">wallofpeople.com/ref/<span id="ref-code">ABC123</span></div>
+    <div class="share-btns" id="share-btns"></div>
+    <p style="font-size:.68rem;color:var(--muted);line-height:1.5">Post publicly so your followers can click it. One click = tile goes live with a ripple animation.</p>
+  </div>
+</div>
+
+<!-- UNLOCKED MODAL -->
+<div class="overlay" id="unlocked-modal" onclick="handleOC(event,'unlocked-modal')">
+  <div class="modal" style="max-width:360px;text-align:center">
+    <button class="modal-x" onclick="closeModal('unlocked-modal')">✕</button>
+    <h2 style="margin-bottom:5px">You're in the Yearbook! 🎉</h2>
+    <p class="modal-sub">Your tile is live on the 2026 The World Yearbook — forever.</p>
+    <div class="share-card">
+      <img class="share-avatar" id="share-avatar" src="https://i.pravatar.cc/150?img=1"/>
+      <div class="share-name" id="share-uname">Your Name</div>
+      <div class="share-tile" id="share-tile-label">Tile #248 · The World Yearbook</div>
+      <div class="share-tag">🌍 Part of history</div>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <button class="btn-primary" onclick="copyLink()">Copy Link</button>
+      <button class="btn-ghost" style="padding:12px 20px" onclick="shareAgain()">Share Again</button>
+    </div>
+  </div>
+</div>
+
+<canvas id="confetti"></canvas>
+<div class="toast" id="toast"></div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© The World Yearbook · <a href="#">Guidelines</a> · <a href="#">Privacy</a> · <a href="#">Contact</a></p>
+  <p style="margin-top:5px">One tile. Your face. The whole world.</p>
+</footer>
+
+<script>
+'use strict';
+
+// ── FEATURE FLAGS ─────────────────────────────────────────────────────────────
+// Flip these to true when ready to monetize
+const FLAGS = {
+  PAID_TIERS: false,      // Enable paid tier pricing after free founding period
+  FRONT_PAGE_AUCTION: false, // Enable front page bidding row
+  PAYMENT_ENABLED: false, // Enable Stripe checkout on submission
+};
+
+// Apply flags on load
+if(FLAGS.FRONT_PAGE_AUCTION){
+  document.getElementById('front-page-section').style.display='';
+  document.getElementById('bid-modal').style.display='';
+}
+if(FLAGS.PAID_TIERS){
+  document.getElementById('price-ladder').style.display='';
+}
+
+// ── PEOPLE DATA ────────────────────────────────────────────────────────────────
+const PEOPLE=[
+  {name:"Lucas Winthrop",loc:"Boston, MA 🇺🇸",msg:"Building Winthrop Wealth. One tile at a time.",img:36,country:'c-us'},
+  {name:"Maya Rodriguez",loc:"Mexico City 🇲🇽",msg:"Primera generación. Todo para mi familia.",img:1,country:'c-mx'},
+  {name:"James Okafor",loc:"Lagos, Nigeria 🇳🇬",msg:"Building something that outlasts me.",img:2,country:'c-af'},
+  {name:"Yuki Tanaka",loc:"Osaka, Japan 🇯🇵",msg:"千里の道も一歩から。",img:3,country:'c-jp'},
+  {name:"Sarah Kim",loc:"Seoul, South Korea 🇰🇷",msg:"Hello from the other side of the world!",img:4,country:'c-cn'},
+  {name:"Luca Ferretti",loc:"Milan, Italy 🇮🇹",msg:"La vita è bella.",img:5,country:'c-eu'},
+  {name:"Amara Diallo",loc:"Dakar, Senegal 🇸🇳",msg:"Representing everyone who came before me.",img:6,country:'c-af'},
+  {name:"Daniel Park",loc:"Vancouver 🇨🇦",msg:"Skied every mountain in BC. This is my summit.",img:7,country:'c-ca'},
+  {name:"Priya Sharma",loc:"Mumbai, India 🇮🇳",msg:"Software engineer, dog mom, chai addict.",img:8,country:'c-in'},
+  {name:"Tom Eriksson",loc:"Stockholm 🇸🇪",msg:"Somewhere between a startup and a ski trip.",img:9,country:'c-sc'},
+  {name:"Camille Dubois",loc:"Paris, France 🇫🇷",msg:"Art director. Dreamer. Occasional baguette.",img:10,country:'c-eu'},
+  {name:"Marcus Johnson",loc:"Atlanta, GA 🇺🇸",msg:"First in my family. Won't be the last.",img:11,country:'c-us'},
+  {name:"Lin Wei",loc:"Shanghai, China 🇨🇳",msg:"The world is smaller than we think.",img:12,country:'c-cn'},
+  {name:"Fatima Al-Hassan",loc:"Dubai, UAE 🇦🇪",msg:"Engineer by day. Artist by night.",img:13,country:'c-me'},
+  {name:"Carlos Mendez",loc:"Buenos Aires 🇦🇷",msg:"Mate in hand, world at my feet.",img:14,country:'c-br'},
+  {name:"Anna Kowalski",loc:"Warsaw, Poland 🇵🇱",msg:"Left to find myself. Found everything.",img:15,country:'c-eu'},
+  {name:"Aisha Patel",loc:"London, UK 🇬🇧",msg:"Doctor. Dancer. Terrible cook.",img:17,country:'c-uk'},
+  {name:"Bruno Costa",loc:"São Paulo 🇧🇷",msg:"Futebol, código e café. Nessa ordem.",img:18,country:'c-br'},
+  {name:"Oliver Bennett",loc:"Sydney 🇦🇺",msg:"Surfer. Father. Sometimes in that order.",img:20,country:'c-au'},
+  {name:"Kai Nakamura",loc:"Tokyo, Japan 🇯🇵",msg:"I design things nobody asked for but everyone wants.",img:22,country:'c-jp'},
+  {name:"Ahmed Hassan",loc:"Cairo, Egypt 🇪🇬",msg:"3,000 years of history and I'm on a website.",img:26,country:'c-af'},
+  {name:"Kwame Asante",loc:"Accra, Ghana 🇬🇭",msg:"Proud son of Africa. Building for us.",img:28,country:'c-af'},
+  {name:"Viktor Petrov",loc:"Kyiv, Ukraine 🇺🇦",msg:"Still here. Still building.",img:34,country:'c-eu'},
+  {name:"Max Müller",loc:"Berlin, Germany 🇩🇪",msg:"Techno fan. Startup advisor.",img:40,country:'c-eu'},
+  {name:"Charlotte Davies",loc:"Melbourne 🇦🇺",msg:"Best coffee city in the world. Not up for debate.",img:60,country:'c-au'},
+  {name:"Rafael Hernandez",loc:"Miami, FL 🇺🇸",msg:"Cuban-American. Both, always.",img:61,country:'c-us'},
+  {name:"Hiroshi Yamamoto",loc:"Sapporo 🇯🇵",msg:"Ramen shop owner. Life is good.",img:37,country:'c-jp'},
+  {name:"Elena Vasquez",loc:"Madrid, Spain 🇪🇸",msg:"Flamenco, fintech, far too much coffee.",img:23,country:'c-eu'},
+  {name:"Arjun Krishnamurthy",loc:"Bangalore 🇮🇳",msg:"IIT grad turned yogi. Both have their place.",img:44,country:'c-in'},
+  {name:"Mia Hoffman",loc:"Zürich 🇨🇭",msg:"Precision and chocolate. Switzerland delivers.",img:54,country:'c-eu'},
+];
+
+const LOCKED_IDX=[5,12,19,24];
+const EASTER={42:{icon:'🌌',t:'42',m:'The answer to life, the universe, and everything.'},100:{icon:'🎊',t:'Tile #100',m:'You found the 100th person in the 2026 yearbook. They got here first.'}};
+
+const TICKER_MSGS=PEOPLE.map((p,i)=>`<span class="act-item"><span class="act-dot${i%5===0?' green':''}"></span>${p.loc.split(' ').pop()} <strong>${p.name}</strong> joined the yearbook</span>`);
+
+// ── COUNTDOWN ─────────────────────────────────────────────────────────────────
+function updateCountdown(){
+  const deadline=new Date('2026-12-31T23:59:59');
+  const now=new Date();
+  const diff=deadline-now;
+  if(diff<0){document.querySelector('.countdown-bar').style.display='none';return;}
+  const d=Math.floor(diff/86400000);
+  const h=Math.floor((diff%86400000)/3600000);
+  const m=Math.floor((diff%3600000)/60000);
+  const s=Math.floor((diff%60000)/1000);
+  document.getElementById('cd-d').textContent=String(d).padStart(3,'0');
+  document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
+  document.getElementById('cd-m').textContent=String(m).padStart(2,'0');
+  document.getElementById('cd-s').textContent=String(s).padStart(2,'0');
+}
+setInterval(updateCountdown,1000);
+updateCountdown();
+
+// ── DOT MAP (overlaid on NASA night image) ────────────────────────────────────
+const dotCanvas=document.getElementById('dot-canvas');
+const dotCtx=dotCanvas.getContext('2d');
+
+// Submission lights on the map
+const mapLights=[];
+let userLoc=null;
+let dotW=960,dotH=480;
+
+// Seed lights from existing PEOPLE data
+// lat/lon approx per person
+const personCoords={
+  'Lucas Winthrop':[42.36,-71.06],'Maya Rodriguez':[19.43,-99.13],'James Okafor':[6.45,3.39],
+  'Yuki Tanaka':[34.69,135.50],'Sarah Kim':[37.57,126.98],'Luca Ferretti':[45.46,9.19],
+  'Amara Diallo':[14.72,-17.47],'Daniel Park':[49.28,-123.12],'Priya Sharma':[19.08,72.88],
+  'Tom Eriksson':[59.33,18.07],'Camille Dubois':[48.85,2.35],'Marcus Johnson':[33.75,-84.39],
+  'Lin Wei':[31.23,121.47],'Fatima Al-Hassan':[25.20,55.27],'Carlos Mendez':[-34.60,-58.38],
+  'Anna Kowalski':[52.23,21.01],'Aisha Patel':[51.51,-0.13],'Bruno Costa':[-23.55,-46.63],
+  'Oliver Bennett':[-33.87,151.21],'Kai Nakamura':[35.69,139.69],'Ahmed Hassan':[30.06,31.25],
+  'Kwame Asante':[5.55,-0.20],'Viktor Petrov':[50.45,30.52],'Max Müller':[52.52,13.40],
+  'Charlotte Davies':[-37.81,144.96],'Rafael Hernandez':[25.77,-80.19],'Hiroshi Yamamoto':[43.06,141.35],
+  'Elena Vasquez':[40.42,-3.70],'Arjun Krishnamurthy':[12.97,77.59],'Mia Hoffman':[47.38,8.54],
+};
+
+function latLonToMap(lat,lon){
+  // Equirectangular projection
+  const x=((lon+180)/360)*MAP_W;
+  const y=((90-lat)/180)*MAP_H;
+  return[x,y];
+}
+
+// Map starts dark — lights appear only when people submit
+
+function resizeDotCanvas(){
+  const wrap=document.getElementById('map-wrap');
+  const w=wrap.offsetWidth-24;
+  const h=w/2;
+  dotW=w;dotH=h;
+  const d=Math.min(window.devicePixelRatio||1,2);
+  dotCanvas.width=w*d;dotCanvas.height=h*d;
+  dotCanvas.style.width=w+'px';dotCanvas.style.height=h+'px';
+  dotCtx.setTransform(d,0,0,d,0,0);
+}
+
+function drawDot(x,y,r,isUser,age,twinkle){
+  const t=Date.now()/1000;
+  const tw=Math.sin(t*1.8+twinkle)*.12+.88;
+  const fadeIn=Math.min(1,age/2000);
+  const alpha=fadeIn*tw;
+  if(isUser){
+    const pulse=Math.sin(t*2.2)*.25+.75;
+    const g=dotCtx.createRadialGradient(x,y,0,x,y,14);
+    g.addColorStop(0,`rgba(255,77,77,${alpha*pulse*.9})`);
+    g.addColorStop(.35,`rgba(255,77,77,${alpha*.35*pulse})`);
+    g.addColorStop(1,'rgba(255,77,77,0)');
+    dotCtx.fillStyle=g;dotCtx.beginPath();dotCtx.arc(x,y,14,0,Math.PI*2);dotCtx.fill();
+    dotCtx.fillStyle=`rgba(255,120,120,${alpha})`;dotCtx.beginPath();dotCtx.arc(x,y,2.5,0,Math.PI*2);dotCtx.fill();
+  } else {
+    const g=dotCtx.createRadialGradient(x,y,0,x,y,r*6);
+    g.addColorStop(0,`rgba(255,255,220,${alpha*tw})`);
+    g.addColorStop(.4,`rgba(255,240,160,${alpha*.4*tw})`);
+    g.addColorStop(1,'rgba(255,200,80,0)');
+    dotCtx.fillStyle=g;dotCtx.beginPath();dotCtx.arc(x,y,r*6,0,Math.PI*2);dotCtx.fill();
+    dotCtx.fillStyle=`rgba(255,255,240,${alpha*tw})`;dotCtx.beginPath();dotCtx.arc(x,y,r,0,Math.PI*2);dotCtx.fill();
+  }
+}
+
+function animateMap(){
+  dotCtx.clearRect(0,0,dotW,dotH);
+  const now=Date.now();
+  mapLights.forEach(l=>{
+    const x=l.lonPct*dotW;
+    const y=l.latPct*dotH;
+    drawDot(x,y,l.r,l.isUser,now-l.born,l.twinkle);
+  });
+  requestAnimationFrame(animateMap);
+}
+
+function addMapLight(lat,lon,isUser=false){
+  mapLights.push({lonPct:(lon+180)/360,latPct:(90-lat)/180,r:Math.random()*.5+.5,isUser,born:Date.now(),twinkle:Math.random()*Math.PI*2});
+}
+
+const mapImg=document.getElementById('map-img');
+function startMap(){resizeDotCanvas();animateMap();simulate500();}
+if(mapImg.complete)startMap();
+else{mapImg.addEventListener('load',startMap);mapImg.addEventListener('error',startMap);}
+window.addEventListener('resize',resizeDotCanvas);
+
+// Major city coords for realistic simulation
+const SIM_CITIES=[
+  [40.71,-74.01],[51.51,-0.13],[48.85,2.35],[52.52,13.40],[55.76,37.62],[59.91,10.75],[55.68,12.57],[60.17,24.94],
+  [41.01,28.95],[50.85,4.35],[47.38,8.54],[45.46,9.19],[41.90,12.48],[38.72,-9.14],[40.42,-3.70],[43.30,5.37],
+  [53.48,-2.24],[53.33,-6.25],[35.69,139.69],[34.69,135.50],[37.57,126.98],[31.23,121.47],[39.91,116.39],[22.32,114.17],
+  [1.35,103.82],[13.75,100.50],[3.14,101.69],[14.60,121.00],[10.82,106.63],[19.08,72.88],[28.64,77.22],[12.97,77.59],
+  [17.39,78.49],[13.09,80.27],[22.57,88.37],[23.73,90.40],[6.93,79.85],[33.69,73.06],[31.52,74.36],[24.87,67.01],
+  [30.06,31.25],[36.81,10.18],[33.89,35.50],[24.69,46.72],[25.20,55.27],[26.07,50.56],[51.53,45.01],[41.30,69.24],
+  [43.25,76.94],[55.02,82.93],[56.85,60.61],[59.95,30.32],[-33.87,151.21],[-37.81,144.96],[-27.47,153.03],[-31.95,115.86],
+  [-36.86,174.77],[-1.29,36.82],[-26.20,28.04],[6.37,2.40],[9.05,7.49],[5.56,-0.20],[14.69,-17.44],[4.36,18.55],
+  [15.55,32.53],[-4.32,15.32],[-25.97,32.57],[18.55,-72.34],[18.01,-76.79],[10.49,-66.88],[4.71,-74.07],[-12.05,-77.04],
+  [-16.50,-68.15],[-0.23,-78.51],[-34.60,-58.38],[-23.55,-46.63],[-22.90,-43.17],[-33.46,-70.65],[-2.17,-79.92],
+  [43.70,-79.42],[45.51,-73.56],[49.25,-123.12],[51.04,-114.06],[53.55,-113.49],[47.61,-122.33],[37.77,-122.42],
+  [34.05,-118.24],[33.45,-112.07],[29.76,-95.37],[41.85,-87.65],[42.36,-71.06],[25.77,-80.19],[39.95,-75.17],
+  [38.90,-77.04],[32.78,-96.80],[29.95,-90.07],[36.17,-86.78],[45.52,-122.68],[47.61,-122.33],[21.31,-157.86],
+  [64.13,-21.94],[52.37,4.90],[48.21,16.37],[47.50,19.04],[44.80,20.47],[50.45,30.52],[54.69,25.28],[56.95,24.11],
+  [59.44,24.75],[60.39,5.32],[63.43,10.39],[57.16,65.53],[54.99,82.90],[56.01,92.87],[52.29,104.30],[62.03,129.73],
+  [43.11,131.90],[51.18,71.45],[43.24,76.89],[41.30,69.27],[38.56,68.77],[37.94,58.38],[23.59,58.59],[15.55,32.53],
+  [12.37,43.14],[9.02,38.75],[2.05,45.34],[-4.04,39.67],[-1.29,36.82],[-11.71,43.24],[-17.37,-12.37],
+  [33.57,-7.59],[34.03,-6.85],[36.81,10.18],[36.72,3.09],[30.06,31.25],[31.20,29.92],[33.35,44.42],[24.68,46.72],
+  [21.49,39.19],[15.35,44.21],[12.36,43.14],[11.58,43.15],[0.39,9.45],[4.37,18.56],[6.14,1.21],
+  [22.91,43.18],[14.51,-14.47],[12.10,-15.05],[8.48,-13.23],[5.85,-55.17],[6.80,-58.16],[4.94,-52.33],
+  [17.12,-61.85],[18.07,-63.06],[18.47,-69.90],[10.65,-61.52],[6.81,-5.28],[7.37,-3.96],[9.59,-13.58],
+];
+
+function simulate500(){
+  let i=0;
+  const interval=setInterval(()=>{
+    if(i>=500){clearInterval(interval);return;}
+    // Pick a random city with some jitter
+    const city=SIM_CITIES[Math.floor(Math.random()*SIM_CITIES.length)];
+    const lat=city[0]+(Math.random()-.5)*3;
+    const lon=city[1]+(Math.random()-.5)*3;
+    addMapLight(lat,lon,false);
+    i++;
+  },80); // 500 lights over ~40 seconds, staggered
+}
+
+// Geolocation
+fetch('https://ipapi.co/json/')
+  .then(r=>r.json())
+  .then(d=>{
+    if(d.latitude&&d.longitude){
+      userLoc=[d.latitude,d.longitude];
+      addMapLight(d.latitude,d.longitude,true);
+    }
+    if(d.city&&d.country_name)document.getElementById('inp-loc').placeholder=`${d.city}, ${d.country_name}`;
+  }).catch(()=>{});
+
+// ── ACTIVITY TICKER ───────────────────────────────────────────────────────────
+const track=document.getElementById('activity-track');
+const items=[...TICKER_MSGS,...TICKER_MSGS].join('');
+track.innerHTML=items;
+
+// ── PRICING ───────────────────────────────────────────────────────────────────
+const FOUNDING=5000;
+let tileCount=247;
+
+function fmtPrice(n){return n===0?'FREE':`$${n}`;}
+function tierNum(n){return n<=FOUNDING?0:Math.ceil((n-FOUNDING)/1000);}
+function tierPrice(n){return tierNum(n);}
+
+function updatePricing(n){
+  tileCount=n;
+  const price=tierPrice(n);
+  document.getElementById('s-tiles').textContent=n.toLocaleString();
+  document.getElementById('s-price').textContent=fmtPrice(price);
+  document.getElementById('founding-n').textContent=Math.min(n,FOUNDING).toLocaleString();
+  document.getElementById('prog-fill').style.width=Math.min((n/FOUNDING)*100,100)+'%';
+  document.getElementById('tier-pill').textContent='FREE — Founding Period';
+  document.getElementById('modal-tile-n').textContent='#'+(n+1);
+  document.getElementById('modal-pill').innerHTML=`FREE <span class="price-note">founding period · yours forever</span>`;
+  document.getElementById('submit-btn').textContent='Get My Yearbook Spot →';
+  document.getElementById('hero-cta').textContent='Claim My Spot — Free ↗';
+  renderLadder(tierNum(n));
+}
+
+function renderLadder(active){
+  const el=document.getElementById('price-ladder');
+  let html=`<div class="ladder-step${active===0?' active':''}">
+    <div class="ls-price">FREE</div><div class="ls-range">#1–5,000</div>
+    ${active===0?'<div class="active-dot"></div>':''}
+  </div>`;
+  for(let t=1;t<=8;t++){
+    const r1=(5000+(t-1)*1000+1).toLocaleString();const r2=(5000+t*1000).toLocaleString();
+    html+=`<div class="ladder-step${active===t?' active':''}">
+      <div class="ls-price">$${t}</div><div class="ls-range">#${r1}–${r2}</div>
+      ${active===t?'<div class="active-dot"></div>':''}
+    </div>`;
+  }
+  el.innerHTML=html;
+}
+
+// ── TILE GRID ─────────────────────────────────────────────────────────────────
+const grid=document.getElementById('wall-grid');
+let rendered=0;
+
+function createFaceCanvas(person){
+  const c=document.createElement('canvas');c.width=72;c.height=72;
+  const ctx=c.getContext('2d');
+  const img=new Image();img.crossOrigin='anonymous';
+  img.onload=()=>{ctx.save();ctx.beginPath();ctx.rect(0,0,72,72);ctx.clip();ctx.drawImage(img,0,0,72,72);ctx.restore();};
+  img.onerror=()=>{
+    const g=ctx.createLinearGradient(0,0,72,72);
+    const COLS=[['#e84393','#c0306e'],['#4a90e2','#2a6ab5'],['#7b68ee','#5548cc'],['#00b894','#008f74'],['#e17055','#b85230'],['#fdcb6e','#d4a230']];
+    const[c1,c2]=COLS[person.img%COLS.length];g.addColorStop(0,c1);g.addColorStop(1,c2);
+    ctx.fillStyle=g;ctx.fillRect(0,0,72,72);
+    ctx.fillStyle='rgba(255,255,255,.9)';ctx.font='700 20px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(person.name.split(' ').map(w=>w[0]).join('').slice(0,2),36,37);
+  };
+  img.src=`https://i.pravatar.cc/150?img=${person.img}`;
+  return c;
+}
+
+function createFilledTile(person,idx){
+  const div=document.createElement('div');
+  const isLocked=LOCKED_IDX.includes(idx);
+  div.className='tile'+(isLocked?' locked':'');
+  const c=createFaceCanvas(person);
+  div.appendChild(c);
+  if(isLocked){
+    const ring=document.createElement('div');ring.className='lock-ring';
+    const icon=document.createElement('div');icon.className='lock-icon';icon.textContent='🔒';
+    ring.appendChild(icon);div.appendChild(ring);
+  }
+  div.addEventListener('mouseenter',e=>showTip(e,person,idx+1,false,isLocked));
+  div.addEventListener('mousemove',moveTip);
+  div.addEventListener('mouseleave',hideTip);
+  div.addEventListener('click',()=>{if(EASTER[idx+1])showEgg(idx+1);else openBuyModal();});
+  return div;
+}
+
+function createEmptyTile(n){
+  const div=document.createElement('div');div.className='tile empty';
+  div.innerHTML='<div class="empty-plus">+</div>';
+  div.addEventListener('mouseenter',e=>showTip(e,null,n,true,false));
+  div.addEventListener('mousemove',moveTip);
+  div.addEventListener('mouseleave',hideTip);
+  div.addEventListener('click',openBuyModal);
+  return div;
+}
+
+function renderTiles(count=300){
+  for(let i=0;i<count;i++){
+    if(rendered<PEOPLE.length){grid.appendChild(createFilledTile(PEOPLE[rendered],rendered));}
+    else if(rendered<tileCount){grid.appendChild(createFilledTile(PEOPLE[rendered%PEOPLE.length],rendered));}
+    else{grid.appendChild(createEmptyTile(rendered+1));}
+    rendered++;
+  }
+}
+
+function loadMore(){renderTiles(200);}
+renderTiles(350);
+updatePricing(tileCount);
+
+// Live simulation
+setInterval(()=>{
+  if(Math.random()>.6){
+    tileCount++;updatePricing(tileCount);
+    const p=PEOPLE[Math.floor(Math.random()*PEOPLE.length)];
+    const empties=grid.querySelectorAll('.tile.empty');
+    if(empties.length>0){
+      const target=empties[Math.floor(Math.random()*Math.min(5,empties.length))];
+      const newTile=createFilledTile(p,tileCount-1);
+      newTile.classList.add('new-tile');
+      grid.replaceChild(newTile,target);
+      rippleTile(newTile);
+    }
+    // Add light on map for this submission
+    const coords=personCoords[p.name];
+    if(coords)addMapLight(coords[0],coords[1]);
+    else{
+      // Random lat/lon on land for unknown
+      const[lat,lon]=[Math.random()*120-40,Math.random()*300-150];
+      addMapLight(lat,lon);
+    }
+    addActivity(p);
+    document.getElementById('s-today').textContent=parseInt(document.getElementById('s-today').textContent)+1;
+    document.getElementById('s-countries').textContent=Math.min(195,parseInt(document.getElementById('s-countries').textContent)+Math.round(Math.random()*.5));
+  }
+},3800);
+
+function addActivity(p){
+  const track=document.getElementById('activity-track');
+  const item=document.createElement('span');item.className='act-item';
+  item.innerHTML=`<span class="act-dot green"></span>${p.loc.split(' ').pop()} <strong>${p.name}</strong> just joined the yearbook`;
+  track.prepend(item);
+}
+
+function rippleTile(tile){
+  const r=tile.getBoundingClientRect();
+  const ring=document.createElement('div');
+  ring.style.cssText=`position:fixed;border-radius:50%;pointer-events:none;border:2px solid var(--accent);z-index:200;animation:ripO .6s ease-out forwards;left:${r.left+r.width/2}px;top:${r.top+r.height/2}px;width:${r.width}px;height:${r.height}px;transform:translate(-50%,-50%)`;
+  if(!document.getElementById('rip-style')){const s=document.createElement('style');s.id='rip-style';s.textContent='@keyframes ripO{from{transform:translate(-50%,-50%) scale(1);opacity:.8}to{transform:translate(-50%,-50%) scale(2.5);opacity:0}}';document.head.appendChild(s);}
+  document.body.appendChild(ring);setTimeout(()=>ring.remove(),700);
+}
+
+// ── TOOLTIP ───────────────────────────────────────────────────────────────────
+function showTip(e,person,num,isBuy,isLocked){
+  const tip=document.getElementById('tip');
+  tip.className='tip show'+(isBuy?' buy':'');
+  if(isBuy){
+    document.getElementById('tip-name').textContent='✦ Add your photo';
+    document.getElementById('tip-loc').textContent=`Tile #${num}`;
+    document.getElementById('tip-msg').textContent='Join the The World Yearbook — free to claim.';
+    document.getElementById('tip-num').textContent=fmtPrice(tierPrice(num))+' · share to unlock';
+  } else if(isLocked){
+    document.getElementById('tip-name').textContent='🔒 Unlocking…';
+    document.getElementById('tip-loc').textContent=person.loc;
+    document.getElementById('tip-msg').textContent='This person is sharing their tile right now.';
+    document.getElementById('tip-num').textContent=`Tile #${num}`;
+  } else {
+    document.getElementById('tip-name').textContent=person.name;
+    document.getElementById('tip-loc').textContent='📍 '+person.loc;
+    document.getElementById('tip-msg').textContent='"'+person.msg+'"';
+    document.getElementById('tip-num').textContent=`Tile #${num} · The World Yearbook`;
+  }
+  moveTip(e);
+}
+function moveTip(e){
+  const tip=document.getElementById('tip');const pad=14;
+  let x=e.clientX+pad,y=e.clientY+pad;
+  const r=tip.getBoundingClientRect();
+  if(x+r.width>window.innerWidth-8)x=e.clientX-r.width-pad;
+  if(y+r.height>window.innerHeight-8)y=e.clientY-r.height-pad;
+  tip.style.left=x+'px';tip.style.top=y+'px';
+}
+function hideTip(){document.getElementById('tip').classList.remove('show');}
+
+// ── MODAL HELPERS ─────────────────────────────────────────────────────────────
+function openBuyModal(){openModal('buy-modal');}
+function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(id){document.getElementById(id).classList.remove('open');if(!document.querySelector('.overlay.open'))document.body.style.overflow='';}
+function handleOC(e,id){if(e.target===document.getElementById(id))closeModal(id);}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')['buy-modal','pending-modal','unlocked-modal'].forEach(closeModal);});
+
+// ── UPLOAD ────────────────────────────────────────────────────────────────────
+let pendingFile=null,pendingRefId=null,pendingName='';
+function onFS(e){if(e.target.files[0])previewFile(e.target.files[0]);}
+function onDrop(e){e.preventDefault();document.getElementById('upload-zone').classList.remove('drag');const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/'))previewFile(f);}
+function onDO(e){e.preventDefault();document.getElementById('upload-zone').classList.add('drag');}
+function onDL(){document.getElementById('upload-zone').classList.remove('drag');}
+function previewFile(file){
+  pendingFile=file;const r=new FileReader();
+  r.onload=e=>{
+    const img=document.getElementById('preview-img');img.src=e.target.result;img.style.display='block';
+    document.getElementById('up-icon').style.display='none';document.getElementById('up-text').style.display='none';
+    document.getElementById('pending-preview-img').src=e.target.result;
+    document.getElementById('share-avatar').src=e.target.result;
+  };r.readAsDataURL(file);
+}
+
+// ── SUBMIT ────────────────────────────────────────────────────────────────────
+const isMobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+function submitTile(){
+  const name=document.getElementById('inp-name').value.trim();
+  if(!name){document.getElementById('inp-name').focus();return;}
+  pendingName=name;pendingRefId=Math.random().toString(36).substring(2,8).toUpperCase();
+  document.getElementById('ref-code').textContent=pendingRefId;
+  document.getElementById('share-uname').textContent=name;
+  document.getElementById('share-tile-label').textContent=`Tile #${tileCount+1} · The World Yearbook`;
+  if(!pendingFile)document.getElementById('share-avatar').src=`https://i.pravatar.cc/150?img=${Math.floor(Math.random()*70)+1}`;
+  closeModal('buy-modal');openModal('pending-modal');
+  buildShareBtns();startUnlockSim();
+}
+
+function buildShareBtns(){
+  const container=document.getElementById('share-btns');
+  const url=`https://wallofpeople.com/ref/${pendingRefId}`;
+  const text=`I just claimed my spot in the The World Yearbook. Get yours before Dec 31st 👉`;
+  const xUrl=`https://twitter.com/intent/tweet?text=${encodeURIComponent(text+' '+url)}`;
+  const fbUrl=`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`;
+
+  if(isMobile&&navigator.share){
+    container.innerHTML=`<button class="btn-native" onclick="nativeShare()">📤 Share (opens your apps)</button>`;
+    return;
+  }
+  container.innerHTML=`
+    <button class="btn-x" onclick="window.open('${xUrl}','_blank')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L2.25 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      Share on X
+    </button>
+    <button class="btn-tt" onclick="copyAndOpenTikTok()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.75a8.16 8.16 0 004.77 1.52V6.82a4.85 4.85 0 01-1-.13z"/></svg>
+      TikTok
+    </button>
+    <button class="btn-fb" onclick="window.open('${fbUrl}','_blank')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      Facebook
+    </button>
+    <button class="btn-ghost" style="padding:10px 16px;font-size:.8rem" onclick="copyRefLink()">Copy Link</button>`;
+}
+
+function nativeShare(){
+  const url=`https://wallofpeople.com/ref/${pendingRefId}`;
+  const text=`I just claimed my spot in the The World Yearbook. Get yours before Dec 31st 👉`;
+  navigator.share({title:'The World Yearbook',text,url}).catch(()=>{});
+}
+function copyAndOpenTikTok(){
+  const url=`https://wallofpeople.com/ref/${pendingRefId}`;
+  navigator.clipboard?.writeText(`I just claimed my spot in the The World Yearbook 🌍 Get yours → ${url}`).catch(()=>{});
+  toast('Caption copied! Opening TikTok…');
+  setTimeout(()=>{window.location.href='tiktok://';setTimeout(()=>window.open('https://www.tiktok.com','_blank'),500);},400);
+}
+function copyRefLink(){navigator.clipboard?.writeText(`https://wallofpeople.com/ref/${pendingRefId}`).catch(()=>{});toast('Link copied! 🔗');}
+function copyLink(){navigator.clipboard?.writeText(`https://wallofpeople.com/ref/${pendingRefId}`).catch(()=>{});const btn=event.target;btn.textContent='Copied ✓';setTimeout(()=>btn.textContent='Copy Link',2000);}
+function shareAgain(){buildShareBtns();openModal('pending-modal');closeModal('unlocked-modal');}
+
+// ── UNLOCK SIMULATION ─────────────────────────────────────────────────────────
+function startUnlockSim(){
+  document.getElementById('unlock-prog').style.display='block';
+  const delay=5000+Math.random()*8000;
+  setTimeout(()=>{
+    document.getElementById('click-count').textContent='1';
+    document.getElementById('unlock-bar').style.width='100%';
+    setTimeout(unlock,600);
+  },delay);
+}
+function unlock(){
+  closeModal('pending-modal');openModal('unlocked-modal');launchConfetti();
+  tileCount++;updatePricing(tileCount);
+  const p={name:pendingName,loc:'Earth 🌍',msg:'In the The World Yearbook.',img:Math.floor(Math.random()*70)+1,country:'c-us'};
+  const tile=createFilledTile(p,tileCount-1);
+  const empties=grid.querySelectorAll('.tile.empty');
+  if(empties[0])grid.replaceChild(tile,empties[0]);
+  rippleTile(tile);addActivity(p);
+  toast(`🔓 ${pendingName}'s tile just went live!`);
+}
+
+// ── EASTER EGG ────────────────────────────────────────────────────────────────
+function showEgg(num){
+  const egg=EASTER[num];if(!egg)return;
+  toast(`${egg.icon} ${egg.t} — ${egg.m}`);
+}
+
+// ── CONFETTI ──────────────────────────────────────────────────────────────────
+function launchConfetti(){
+  const canvas=document.getElementById('confetti');const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;canvas.style.display='block';
+  const cols=['#ff4d4d','#ff8c42','#ffd700','#00e5ff','#ff69b4','#9b59b6','#2ecc71'];
+  const parts=Array.from({length:180},()=>({x:Math.random()*canvas.width,y:-20,w:Math.random()*10+5,h:Math.random()*5+3,c:cols[Math.floor(Math.random()*cols.length)],rot:Math.random()*Math.PI*2,rs:(Math.random()-.5)*.25,vx:(Math.random()-.5)*8,vy:Math.random()*5+2,op:1}));
+  let f=0;(function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);let alive=false;parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.13;p.rot+=p.rs;if(p.y>canvas.height-60)p.op-=.03;if(p.op>0){alive=true;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.globalAlpha=p.op;ctx.fillStyle=p.c;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();}});if(alive&&f++<240)requestAnimationFrame(draw);else canvas.style.display='none';})();
+}
+
+// ── FRONT PAGE AUCTION ────────────────────────────────────────────────────────
+const FP_SPOTS = 20;
+const FP_MIN_BID = 10;
+const FP_INCREMENT = 5;
+const SNIPER_WINDOW = 30 * 60 * 1000; // 30 min in ms
+
+// Spot state
+const fpSpots = Array.from({length: FP_SPOTS}, (_, i) => ({
+  id: i + 1,
+  name: null,
+  msg: null,
+  bid: 0,
+  bidders: 0,
+  img: null,
+  heldSince: null,
+  auctionEnd: null,
+}));
+
+// Pre-populate a few spots for demo realism
+const FP_DEMO = [
+  {id:1, name:'TechCorp', msg:'techcorp.io', bid:142, bidders:8, img:36},
+  {id:2, name:'Alex Chen', msg:'Founder & CEO', bid:95, bidders:5, img:22},
+  {id:3, name:'Sarah Kim', msg:'Seoul → World', bid:78, bidders:4, img:4},
+  {id:5, name:'Max Müller', msg:'Berlin Startup Hub', bid:55, bidders:3, img:40},
+  {id:8, name:'Priya Sharma', msg:'Building in public', bid:40, bidders:2, img:8},
+  {id:12, name:'Oliver Bennett', msg:'Sydney · Surf & Build', bid:25, bidders:2, img:20},
+];
+FP_DEMO.forEach(d => {
+  const s = fpSpots[d.id-1];
+  s.name = d.name; s.msg = d.msg; s.bid = d.bid;
+  s.bidders = d.bidders; s.img = d.img; s.heldSince = Date.now() - Math.random()*3600000;
+});
+
+let activeBidSpot = null;
+
+function renderFPGrid() {
+  const grid = document.getElementById('fp-grid');
+  grid.innerHTML = '';
+  fpSpots.forEach((spot, i) => {
+    const div = document.createElement('div');
+    div.className = 'fp-tile' + (spot.name ? ' occupied' : ' empty-fp');
+    div.id = `fp-spot-${spot.id}`;
+
+    if(spot.name) {
+      // Occupied spot
+      const imgEl = createFaceCanvas({img: spot.img, name: spot.name});
+      const imgWrap = document.createElement('div');
+      imgWrap.className = 'fp-tile-img';
+      if(i === 0) {
+        const crown = document.createElement('div');
+        crown.className = 'crown-badge';
+        crown.textContent = '👑';
+        imgWrap.appendChild(crown);
+      }
+      imgWrap.appendChild(imgEl);
+      div.appendChild(imgWrap);
+
+      const meta = document.createElement('div');
+      meta.className = 'fp-tile-meta';
+      meta.innerHTML = `<div class="fp-tile-name">${spot.name}</div>
+        <div class="fp-tile-bid">$${spot.bid}</div>
+        <div class="fp-tile-bidders">${spot.bidders} bid${spot.bidders!==1?'s':''}</div>`;
+      div.appendChild(meta);
+
+      div.addEventListener('mouseenter', e => {
+        showTip(e, {name: spot.name, loc: spot.msg || '', msg: `Current top bid: $${spot.bid} · Click to outbid`, img: spot.img}, spot.id, false, false);
+      });
+      div.addEventListener('mousemove', moveTip);
+      div.addEventListener('mouseleave', hideTip);
+    } else {
+      // Empty spot
+      const imgWrap = document.createElement('div');
+      imgWrap.className = 'fp-tile-img';
+      imgWrap.innerHTML = `<div class="fp-empty-icon">👑</div><div class="fp-empty-label">Spot #${spot.id}<br>Open</div>`;
+      div.appendChild(imgWrap);
+      const meta = document.createElement('div');
+      meta.className = 'fp-tile-meta';
+      meta.innerHTML = `<div class="fp-tile-name" style="color:#333">Unclaimed</div>
+        <div class="fp-tile-bid" style="color:#333">from $${FP_MIN_BID}</div>
+        <div class="fp-tile-bidders" style="color:#2a2a2a">be first</div>`;
+      div.appendChild(meta);
+    }
+
+    div.addEventListener('click', () => openBidModal(spot.id));
+    grid.appendChild(div);
+  });
+}
+
+function openBidModal(spotId) {
+  activeBidSpot = spotId;
+  const spot = fpSpots[spotId - 1];
+  const minBid = spot.bid > 0 ? spot.bid + FP_INCREMENT : FP_MIN_BID;
+  document.getElementById('bid-modal-sub').innerHTML = `Spot #${spotId} · Current bid: <strong>$${spot.bid || 0}</strong> · <strong>${spot.bidders}</strong> bidder${spot.bidders!==1?'s':''}`;
+  document.getElementById('bid-current').textContent = '$' + (spot.bid || 0);
+  document.getElementById('bid-count').textContent = spot.bidders;
+  document.getElementById('bid-min-show').textContent = '$' + minBid;
+  document.getElementById('bid-hint').textContent = `Minimum: $${minBid} · Must beat $${spot.bid} by at least $${FP_INCREMENT}`;
+  document.getElementById('bid-amount').min = minBid;
+  document.getElementById('bid-amount').value = minBid;
+  if(spot.name) document.getElementById('bid-submit-btn').textContent = `Outbid $${spot.bid} — Place $${minBid}+ →`;
+  else document.getElementById('bid-submit-btn').textContent = `Claim Spot #${spotId} — $${FP_MIN_BID}+ →`;
+  // Pre-fill name if already entered
+  const existingName = document.getElementById('inp-name').value;
+  if(existingName) document.getElementById('bid-name').value = existingName;
+  openModal('bid-modal');
+}
+
+function placeBid() {
+  const name = document.getElementById('bid-name').value.trim();
+  const amount = parseInt(document.getElementById('bid-amount').value);
+  const msg = document.getElementById('bid-msg').value.trim();
+  if(!name) { document.getElementById('bid-name').focus(); return; }
+  if(!amount || isNaN(amount)) { document.getElementById('bid-amount').focus(); return; }
+  const spot = fpSpots[activeBidSpot - 1];
+  const minBid = spot.bid > 0 ? spot.bid + FP_INCREMENT : FP_MIN_BID;
+  if(amount < minBid) {
+    toast(`Minimum bid is $${minBid}`);
+    return;
+  }
+  // In production → Stripe charge here
+  // Simulate: update spot
+  const prevName = spot.name;
+  spot.name = name;
+  spot.msg = msg || '';
+  spot.bid = amount;
+  spot.bidders++;
+  spot.img = Math.floor(Math.random() * 70) + 1;
+  spot.heldSince = Date.now();
+  closeModal('bid-modal');
+  renderFPGrid();
+  // Flash the spot
+  setTimeout(() => {
+    const el = document.getElementById(`fp-spot-${activeBidSpot}`);
+    if(el) { el.style.animation = 'none'; el.offsetHeight; el.querySelector('.fp-tile-img').classList.add('fp-outbid-flash'); }
+  }, 100);
+  toast(`👑 ${name} is now on the Front Page of the 2026 Yearbook!`);
+  launchConfetti();
+  // Activity
+  const track = document.getElementById('activity-track');
+  const item = document.createElement('span');
+  item.className = 'act-item';
+  item.innerHTML = `<span class="act-dot" style="background:#ffd700"></span>👑 <strong>${name}</strong> claimed Front Page Spot #${activeBidSpot} with a $${amount} bid`;
+  track.prepend(item);
+  if(prevName) toast(`${prevName} was outbid on Spot #${activeBidSpot} — no refund issued`);
+}
+
+// Simulate live bidding activity
+function simBidActivity() {
+  setInterval(() => {
+    if(Math.random() > 0.7) {
+      // Random spot gets a bid bump
+      const occupied = fpSpots.filter(s => s.name);
+      if(!occupied.length) return;
+      const spot = occupied[Math.floor(Math.random() * occupied.length)];
+      const oldBid = spot.bid;
+      spot.bid += FP_INCREMENT + Math.floor(Math.random() * 20);
+      spot.bidders++;
+      // Update just that tile's bid display without full re-render
+      const el = document.getElementById(`fp-spot-${spot.id}`);
+      if(el) {
+        const bidEl = el.querySelector('.fp-tile-bid');
+        const bidderEl = el.querySelector('.fp-tile-bidders');
+        if(bidEl) bidEl.textContent = '$' + spot.bid;
+        if(bidderEl) bidderEl.textContent = spot.bidders + ' bid' + (spot.bidders !== 1 ? 's' : '');
+        // Flash
+        const imgWrap = el.querySelector('.fp-tile-img');
+        if(imgWrap) { imgWrap.style.borderColor = '#ffd700'; setTimeout(() => imgWrap.style.borderColor = '', 800); }
+      }
+    }
+  }, 6000);
+}
+
+renderFPGrid();
+simBidActivity();
+
+// ── TOAST ─────────────────────────────────────────────────────────────────────
+let toastT;function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),3000);}
+
+// ── STAT ANIMATION ────────────────────────────────────────────────────────────
+function animN(id,target,dur=1400){const el=document.getElementById(id);if(!el)return;let st=null;(function step(ts){if(!st)st=ts;const p=Math.min((ts-st)/dur,1);el.textContent=Math.floor(p*target).toLocaleString();if(p<1)requestAnimationFrame(step);else el.textContent=target.toLocaleString();})();}
+animN('s-tiles',247);animN('s-countries',31);animN('s-today',41);
+</script>
+</body>
+</html>
