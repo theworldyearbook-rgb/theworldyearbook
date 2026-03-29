@@ -235,10 +235,9 @@ footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--text
 
 <!-- STATS -->
 <div class="stats">
-  <div class="stat"><div class="stat-n" id="s-tiles">247</div><div class="stat-l">In the Book</div></div>
-  <div class="stat"><div class="stat-n" id="s-countries">31</div><div class="stat-l">Countries</div></div>
-  <div class="stat"><div class="stat-n" id="s-today">41</div><div class="stat-l">Today</div></div>
-  <div class="stat"><div class="stat-n">FREE</div><div class="stat-l">Always Free*</div></div>
+  <div class="stat"><div class="stat-n" id="s-tiles">0</div><div class="stat-l">In the Book</div></div>
+  <div class="stat"><div class="stat-n" id="s-countries">0</div><div class="stat-l">Countries</div></div>
+  <div class="stat"><div class="stat-n" id="s-today">0</div><div class="stat-l">Today</div></div>
 </div>
 
 <!-- COUNTDOWN -->
@@ -264,7 +263,7 @@ footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--text
   <div class="map-wrap" id="map-wrap">
     <div class="map-bg">
       <!-- Earth at night map — local copy -->
-      <img src="earth-night.jpg" alt="Earth at night" id="map-img" style="border-radius:10px"/>
+      <img src="/earth-night.jpg" alt="Earth at night" id="map-img" style="border-radius:10px"/>
       <canvas id="dot-canvas"></canvas>
     </div>
   </div>
@@ -348,7 +347,7 @@ footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--text
   <div class="founding-bar">
     <div class="founding-meta">
       <span>🔥 Founding 5,000 — <strong>Free to claim, share to unlock</strong></span>
-      <span><strong id="founding-n">247</strong> / 5,000</span>
+      <span><strong id="founding-n">0</strong> / 5,000</span>
     </div>
     <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:4.94%"></div></div>
   </div>
@@ -1153,7 +1152,7 @@ async function loadRealTiles(){
 // ── INIT ──────────────────────────────────────────────────────────────────────
 (async function init(){
   await handleRefClick();
-  animN('s-tiles',0);animN('s-countries',0);animN('s-today',0);
+  // stats populated from DB in loadRealTiles
   await loadRealTiles();
 })();
 </script>
