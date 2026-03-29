@@ -383,8 +383,7 @@ footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--text
   <div class="modal">
     <button class="modal-x" onclick="closeModal('buy-modal')">✕</button>
     <h2>Add Yourself to the Yearbook</h2>
-    <p class="modal-sub">Tile <strong id="modal-tile-n">#248</strong> · Closes Dec 31, 2026 · Share to unlock</p>
-    <div class="price-pill" id="modal-pill">FREE <span class="price-note">founding spot · yours forever</span></div>
+    <div class="price-pill">FREE <span class="price-note">founding spot · yours forever</span></div>
     <div class="upload-zone" id="upload-zone" ondrop="onDrop(event)" ondragover="onDO(event)" ondragleave="onDL(event)">
       <div class="up-icon" id="up-icon">📷</div>
       <div class="up-text" id="up-text"><strong>Upload your photo</strong><br>Drag & drop or click<br><small style="color:#2a2a2a">JPG, PNG · Max 5MB</small></div>
@@ -644,8 +643,6 @@ function updatePricing(n){
   if(el('founding-n'))el('founding-n').textContent=Math.min(n,FOUNDING).toLocaleString();
   if(el('prog-fill'))el('prog-fill').style.width=Math.min((n/FOUNDING)*100,100)+'%';
   if(el('tier-pill'))el('tier-pill').textContent='FREE — Founding Period';
-  if(el('modal-tile-n'))el('modal-tile-n').textContent='#'+(n+1);
-  if(el('modal-pill'))el('modal-pill').innerHTML='FREE <span class="price-note">founding period · yours forever</span>';
   if(el('submit-btn'))el('submit-btn').textContent='Get My Yearbook Spot →';
   if(el('hero-cta'))el('hero-cta').textContent='Claim My Spot — Free ↗';
   if(typeof renderLadder==='function')renderLadder(tierNum(n));
@@ -803,8 +800,6 @@ const MSG_EXAMPLES=[
   "Making my corner of the world a little kinder, one day at a time.",
 ];
 function openBuyModal(){
-  if(el('modal-tile-n'))el('modal-tile-n').textContent='#'+(tileCount+1);
-  if(el('modal-pill'))el('modal-pill').innerHTML='FREE <span class="price-note">founding period · yours forever</span>';
   const ta=el('inp-msg');
   if(ta)ta.placeholder='e.g. '+MSG_EXAMPLES[Math.floor(Math.random()*MSG_EXAMPLES.length)];
   openModal('buy-modal');
@@ -888,7 +883,8 @@ async function submitTile(){
 
     document.getElementById('ref-code').textContent=pendingRefId;
     document.getElementById('share-uname').textContent=name;
-    document.getElementById('share-tile-label').textContent=`Tile #${tileCount+1} · The World Yearbook`;
+    const myTileNum=tileCount+1;
+    document.getElementById('share-tile-label').textContent=`You are Tile #${myTileNum} · The World Yearbook`;
     const avatar=photoUrl||`https://i.pravatar.cc/150?img=${Math.floor(Math.random()*70)+1}`;
     document.getElementById('pending-preview-img').src=avatar;
     document.getElementById('share-avatar').src=avatar;
