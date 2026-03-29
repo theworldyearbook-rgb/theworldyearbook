@@ -349,7 +349,7 @@ footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--text
       <span>🔥 Founding 5,000 — <strong>Free to claim, share to unlock</strong></span>
       <span><strong id="founding-n">0</strong> / 5,000</span>
     </div>
-    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:4.94%"></div></div>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
   </div>
 
   <!-- Price ladder -->
@@ -399,7 +399,7 @@ footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--text
     <div class="fg"><label>Your Message <span style="color:#333;font-weight:400;text-transform:none;letter-spacing:0">(shown on hover · optional)</span></label><textarea id="inp-msg" placeholder="e.g. Living proof that every face has a story." style="min-height:52px"></textarea></div>
     <div style="background:#0d0d0d;border:1px solid #1e1e1e;border-radius:8px;padding:10px 12px;margin-bottom:12px;display:flex;gap:10px;align-items:flex-start">
       <input type="checkbox" id="inp-consent" style="margin-top:3px;accent-color:var(--accent);flex-shrink:0"/>
-      <label for="inp-consent" style="font-size:.72rem;color:#666;line-height:1.5;cursor:pointer">I agree to the <a href="#" style="color:#555;text-decoration:underline">community guidelines</a>. My photo and name will be displayed publicly. I confirm my submission does not contain inappropriate, offensive, or explicit content.</label>
+      <label for="inp-consent" style="font-size:.72rem;color:#666;line-height:1.5;cursor:pointer">I agree to the <a href="#" onclick="openModal('guidelines-modal');return false;" style="color:#555;text-decoration:underline">community guidelines</a>. My photo and name will be displayed publicly. I confirm my submission does not contain inappropriate, offensive, or explicit content.</label>
     </div>
     <button class="btn-primary" id="submit-btn" style="width:100%;padding:14px;font-size:1rem" onclick="submitTile()">Get My Yearbook Spot →</button>
     <p class="modal-footer">Free to claim · Share once to unlock</p>
@@ -454,7 +454,7 @@ footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--text
 
 <!-- FOOTER -->
 <footer>
-  <p>© The World Yearbook · <a href="#">Guidelines</a> · <a href="#">Privacy</a> · <a href="#">Contact</a></p>
+  <p>© The World Yearbook · <a href="#" onclick="openModal('guidelines-modal');return false;">Guidelines</a> · <a href="#">Privacy</a> · <a href="#">Contact</a></p>
   <p style="margin-top:5px">One tile. Your face. The whole world.</p>
 </footer>
 
@@ -1204,5 +1204,34 @@ async function loadRealTiles(){
   await loadRealTiles();
 })();
 </script>
+
+<!-- GUIDELINES MODAL -->
+<div class="overlay" id="guidelines-modal" onclick="handleOC(event,'guidelines-modal')">
+  <div class="modal" style="max-width:480px">
+    <button class="modal-x" onclick="closeModal('guidelines-modal')">✕</button>
+    <h2 style="margin-bottom:8px">🌍 Community Guidelines</h2>
+    <p class="modal-sub" style="margin-bottom:18px">The World Yearbook is a fun, global experiment — the first-ever yearbook for the entire planet. We want it to be something everyone can be proud of.</p>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px">
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <span style="font-size:1.2rem">📸</span>
+        <div><div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:2px">Real photos only</div><div style="font-size:.75rem;color:var(--muted);line-height:1.5">Use a clear photo of yourself. No avatars, memes, logos, or AI-generated images.</div></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <span style="font-size:1.2rem">✌️</span>
+        <div><div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:2px">Keep it clean</div><div style="font-size:.75rem;color:var(--muted);line-height:1.5">No nudity, violence, hate speech, or offensive content of any kind. This is a global community — be someone the world is glad to know.</div></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <span style="font-size:1.2rem">💬</span>
+        <div><div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:2px">Be yourself</div><div style="font-size:.75rem;color:var(--muted);line-height:1.5">Your message is your moment. Keep it positive, genuine, and something you'd be happy to have next to your name forever.</div></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <span style="font-size:1.2rem">🚫</span>
+        <div><div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:2px">Violations get removed</div><div style="font-size:.75rem;color:var(--muted);line-height:1.5">Inappropriate submissions will be removed without notice. Repeated violations may result in a permanent block.</div></div>
+      </div>
+    </div>
+    <button class="btn-primary" style="width:100%;padding:12px" onclick="closeModal('guidelines-modal')">Got it — I'm in ✓</button>
+  </div>
+</div>
+
 </body>
 </html>
