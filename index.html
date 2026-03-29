@@ -397,7 +397,7 @@ footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--text
       <div style="width:80px"><label>State</label><input type="text" id="inp-state" placeholder="e.g. CA" maxlength="4"/></div>
     </div>
     <div class="fg"><label>Country <span style="color:var(--accent)">*</span></label><select id="inp-country"><option value="">Select your country…</option></select></div>
-    <div class="fg"><label>Your Message <span style="color:#333;font-weight:400;text-transform:none;letter-spacing:0">(shown on hover · optional)</span></label><textarea id="inp-msg" placeholder="e.g. Living proof that every face has a story." style="min-height:52px"></textarea></div>
+    <div class="fg"><label>Your Message <span style="color:#333;font-weight:400;text-transform:none;letter-spacing:0">(shown on hover · optional)</span></label><textarea id="inp-msg" placeholder="" style="min-height:52px"></textarea></div>
     <div style="background:#0d0d0d;border:1px solid #1e1e1e;border-radius:8px;padding:10px 12px;margin-bottom:12px;display:flex;gap:10px;align-items:flex-start">
       <input type="checkbox" id="inp-consent" style="margin-top:3px;accent-color:var(--accent);flex-shrink:0"/>
       <label for="inp-consent" style="font-size:.72rem;color:#666;line-height:1.5;cursor:pointer">I agree to the <a href="#" onclick="openModal('guidelines-modal');return false;" style="color:#555;text-decoration:underline">community guidelines</a>. My photo and name will be displayed publicly. I confirm my submission does not contain inappropriate, offensive, or explicit content.</label>
@@ -792,9 +792,21 @@ function moveTip(e){
 function hideTip(){document.getElementById('tip').classList.remove('show');}
 
 // ── MODAL HELPERS ─────────────────────────────────────────────────────────────
+const MSG_EXAMPLES=[
+  "First in my family to graduate. This one’s for them.",
+  "Just trying to leave the world a little better than I found it.",
+  "Dad of three. Still figuring it out. Loving every second.",
+  "Chasing sunrises and building something that matters.",
+  "Class of ‘24. The world has no idea what’s coming.",
+  "Small town kid with a big life. Never stop exploring.",
+  "Here because someone told me I couldn’t. 🙂",
+  "Making my corner of the world a little kinder, one day at a time.",
+];
 function openBuyModal(){
   if(el('modal-tile-n'))el('modal-tile-n').textContent='#'+(tileCount+1);
   if(el('modal-pill'))el('modal-pill').innerHTML='FREE <span class="price-note">founding period · yours forever</span>';
+  const ta=el('inp-msg');
+  if(ta)ta.placeholder='e.g. '+MSG_EXAMPLES[Math.floor(Math.random()*MSG_EXAMPLES.length)];
   openModal('buy-modal');
 }
 function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
