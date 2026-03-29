@@ -229,6 +229,7 @@ footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--text
     <button class="btn-primary" id="hero-cta" onclick="openBuyModal()">Claim My Spot — Free ↗</button>
     <button class="btn-ghost" onclick="document.getElementById('wall-anchor').scrollIntoView({behavior:'smooth'})">See the Wall ↓</button>
     <button class="btn-ghost" onclick="openModal('mission-modal')">Our Global Mission 🌍</button>
+    <button class="btn-ghost" onclick="openModal('how-modal')">How It Works ⚡</button>
   </div>
   <div class="hero-note">Free during our founding period · Share to unlock your tile</div>
   <div style="font-size:.65rem;color:#2a2a2a;margin-top:6px">*Free submissions available for a limited time during launch. Paid tiers coming soon.</div>
@@ -1336,6 +1337,44 @@ async function loadRealTiles(){
     <p style="font-size:.78rem;color:#666;line-height:1.6;margin-bottom:20px">Keep it real. Keep it clean. One tile per person. No bots, no brands, no BS. Real photo of yourself only. Inappropriate submissions are removed without notice. This is for humans.</p>
 
     <button class="btn-primary" style="width:100%;padding:13px" onclick="closeModal('mission-modal');openBuyModal()">Claim My Spot →</button>
+  </div>
+</div>
+
+
+<!-- HOW IT WORKS MODAL -->
+<div class="overlay" id="how-modal" onclick="handleOC(event,'how-modal')">
+  <div class="modal" style="max-width:480px">
+    <button class="modal-x" onclick="closeModal('how-modal')">&#x2715;</button>
+    <div class="year-badge" style="margin-bottom:16px">⚡ How It Works</div>
+    <h2 style="font-size:1.3rem;margin-bottom:18px;line-height:1.3">Your spot in 3 steps.</h2>
+    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px">
+      <div style="display:flex;gap:16px;align-items:flex-start">
+        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.95rem;flex-shrink:0">1</div>
+        <div>
+          <div style="font-size:.9rem;font-weight:800;color:var(--text);margin-bottom:4px">Claim your spot</div>
+          <div style="font-size:.78rem;color:#888;line-height:1.6">Fill in your name, upload a photo, pick your country. Hit “Get My Yearbook Spot.” Takes 30 seconds.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;align-items:flex-start">
+        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.95rem;flex-shrink:0">2</div>
+        <div>
+          <div style="font-size:.9rem;font-weight:800;color:var(--text);margin-bottom:4px">Share to unlock 🔒</div>
+          <div style="font-size:.78rem;color:#888;line-height:1.6">Your tile starts locked. Share your unique link once — to X, TikTok, Facebook, or anywhere. When someone clicks it, your tile unlocks instantly and goes live on the wall.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;align-items:flex-start">
+        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.95rem;flex-shrink:0">3</div>
+        <div>
+          <div style="font-size:.9rem;font-weight:800;color:var(--text);margin-bottom:4px">You’re in — forever 🎉</div>
+          <div style="font-size:.78rem;color:#888;line-height:1.6">Your face, your name, your tile number. Permanent. Part of the 2026 World Yearbook alongside everyone else on the planet.</div>
+        </div>
+      </div>
+    </div>
+    <div style="background:#0d0d0d;border:1px solid #1e1e1e;border-radius:10px;padding:14px 16px;margin-bottom:20px">
+      <div style="font-size:.72rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#555;margin-bottom:6px">Why the share?</div>
+      <p style="font-size:.78rem;color:#666;line-height:1.6;margin:0">We’re building something that only works if the world knows about it. One share per person keeps it real — no bots, no spam, just humans sharing with humans.</p>
+    </div>
+    <button class="btn-primary" style="width:100%;padding:13px" onclick="closeModal('how-modal');openBuyModal()">Claim My Spot →</button>
   </div>
 </div>
 
