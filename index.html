@@ -479,43 +479,12 @@ if(FLAGS.PAID_TIERS){
 }
 
 // ── PEOPLE DATA ────────────────────────────────────────────────────────────────
-const PEOPLE=[
-  {name:"Lucas Winthrop",loc:"Boston, MA 🇺🇸",msg:"Building Winthrop Wealth. One tile at a time.",img:36,country:'c-us'},
-  {name:"Maya Rodriguez",loc:"Mexico City 🇲🇽",msg:"Primera generación. Todo para mi familia.",img:1,country:'c-mx'},
-  {name:"James Okafor",loc:"Lagos, Nigeria 🇳🇬",msg:"Building something that outlasts me.",img:2,country:'c-af'},
-  {name:"Yuki Tanaka",loc:"Osaka, Japan 🇯🇵",msg:"千里の道も一歩から。",img:3,country:'c-jp'},
-  {name:"Sarah Kim",loc:"Seoul, South Korea 🇰🇷",msg:"Hello from the other side of the world!",img:4,country:'c-cn'},
-  {name:"Luca Ferretti",loc:"Milan, Italy 🇮🇹",msg:"La vita è bella.",img:5,country:'c-eu'},
-  {name:"Amara Diallo",loc:"Dakar, Senegal 🇸🇳",msg:"Representing everyone who came before me.",img:6,country:'c-af'},
-  {name:"Daniel Park",loc:"Vancouver 🇨🇦",msg:"Skied every mountain in BC. This is my summit.",img:7,country:'c-ca'},
-  {name:"Priya Sharma",loc:"Mumbai, India 🇮🇳",msg:"Software engineer, dog mom, chai addict.",img:8,country:'c-in'},
-  {name:"Tom Eriksson",loc:"Stockholm 🇸🇪",msg:"Somewhere between a startup and a ski trip.",img:9,country:'c-sc'},
-  {name:"Camille Dubois",loc:"Paris, France 🇫🇷",msg:"Art director. Dreamer. Occasional baguette.",img:10,country:'c-eu'},
-  {name:"Marcus Johnson",loc:"Atlanta, GA 🇺🇸",msg:"First in my family. Won't be the last.",img:11,country:'c-us'},
-  {name:"Lin Wei",loc:"Shanghai, China 🇨🇳",msg:"The world is smaller than we think.",img:12,country:'c-cn'},
-  {name:"Fatima Al-Hassan",loc:"Dubai, UAE 🇦🇪",msg:"Engineer by day. Artist by night.",img:13,country:'c-me'},
-  {name:"Carlos Mendez",loc:"Buenos Aires 🇦🇷",msg:"Mate in hand, world at my feet.",img:14,country:'c-br'},
-  {name:"Anna Kowalski",loc:"Warsaw, Poland 🇵🇱",msg:"Left to find myself. Found everything.",img:15,country:'c-eu'},
-  {name:"Aisha Patel",loc:"London, UK 🇬🇧",msg:"Doctor. Dancer. Terrible cook.",img:17,country:'c-uk'},
-  {name:"Bruno Costa",loc:"São Paulo 🇧🇷",msg:"Futebol, código e café. Nessa ordem.",img:18,country:'c-br'},
-  {name:"Oliver Bennett",loc:"Sydney 🇦🇺",msg:"Surfer. Father. Sometimes in that order.",img:20,country:'c-au'},
-  {name:"Kai Nakamura",loc:"Tokyo, Japan 🇯🇵",msg:"I design things nobody asked for but everyone wants.",img:22,country:'c-jp'},
-  {name:"Ahmed Hassan",loc:"Cairo, Egypt 🇪🇬",msg:"3,000 years of history and I'm on a website.",img:26,country:'c-af'},
-  {name:"Kwame Asante",loc:"Accra, Ghana 🇬🇭",msg:"Proud son of Africa. Building for us.",img:28,country:'c-af'},
-  {name:"Viktor Petrov",loc:"Kyiv, Ukraine 🇺🇦",msg:"Still here. Still building.",img:34,country:'c-eu'},
-  {name:"Max Müller",loc:"Berlin, Germany 🇩🇪",msg:"Techno fan. Startup advisor.",img:40,country:'c-eu'},
-  {name:"Charlotte Davies",loc:"Melbourne 🇦🇺",msg:"Best coffee city in the world. Not up for debate.",img:60,country:'c-au'},
-  {name:"Rafael Hernandez",loc:"Miami, FL 🇺🇸",msg:"Cuban-American. Both, always.",img:61,country:'c-us'},
-  {name:"Hiroshi Yamamoto",loc:"Sapporo 🇯🇵",msg:"Ramen shop owner. Life is good.",img:37,country:'c-jp'},
-  {name:"Elena Vasquez",loc:"Madrid, Spain 🇪🇸",msg:"Flamenco, fintech, far too much coffee.",img:23,country:'c-eu'},
-  {name:"Arjun Krishnamurthy",loc:"Bangalore 🇮🇳",msg:"IIT grad turned yogi. Both have their place.",img:44,country:'c-in'},
-  {name:"Mia Hoffman",loc:"Zürich 🇨🇭",msg:"Precision and chocolate. Switzerland delivers.",img:54,country:'c-eu'},
-];
+const PEOPLE=[];
 
 const LOCKED_IDX=[5,12,19,24];
 const EASTER={42:{icon:'🌌',t:'42',m:'The answer to life, the universe, and everything.'},100:{icon:'🎊',t:'Tile #100',m:'You found the 100th person in the 2026 yearbook. They got here first.'}};
 
-const TICKER_MSGS=PEOPLE.map((p,i)=>`<span class="act-item"><span class="act-dot${i%5===0?' green':''}"></span>${p.loc.split(' ').pop()} <strong>${p.name}</strong> joined the yearbook</span>`);
+const TICKER_MSGS=['<span class="act-item"><span class="act-dot"></span>Be the first to join the 2026 World Yearbook!</span>'];
 
 // ── COUNTDOWN ─────────────────────────────────────────────────────────────────
 function updateCountdown(){
@@ -546,18 +515,7 @@ let dotW=960,dotH=480;
 
 // Seed lights from existing PEOPLE data
 // lat/lon approx per person
-const personCoords={
-  'Lucas Winthrop':[42.36,-71.06],'Maya Rodriguez':[19.43,-99.13],'James Okafor':[6.45,3.39],
-  'Yuki Tanaka':[34.69,135.50],'Sarah Kim':[37.57,126.98],'Luca Ferretti':[45.46,9.19],
-  'Amara Diallo':[14.72,-17.47],'Daniel Park':[49.28,-123.12],'Priya Sharma':[19.08,72.88],
-  'Tom Eriksson':[59.33,18.07],'Camille Dubois':[48.85,2.35],'Marcus Johnson':[33.75,-84.39],
-  'Lin Wei':[31.23,121.47],'Fatima Al-Hassan':[25.20,55.27],'Carlos Mendez':[-34.60,-58.38],
-  'Anna Kowalski':[52.23,21.01],'Aisha Patel':[51.51,-0.13],'Bruno Costa':[-23.55,-46.63],
-  'Oliver Bennett':[-33.87,151.21],'Kai Nakamura':[35.69,139.69],'Ahmed Hassan':[30.06,31.25],
-  'Kwame Asante':[5.55,-0.20],'Viktor Petrov':[50.45,30.52],'Max Müller':[52.52,13.40],
-  'Charlotte Davies':[-37.81,144.96],'Rafael Hernandez':[25.77,-80.19],'Hiroshi Yamamoto':[43.06,141.35],
-  'Elena Vasquez':[40.42,-3.70],'Arjun Krishnamurthy':[12.97,77.59],'Mia Hoffman':[47.38,8.54],
-};
+const personCoords={};
 
 function latLonToMap(lat,lon){
   // Equirectangular projection
@@ -679,7 +637,7 @@ track.innerHTML=items;
 
 // ── PRICING ───────────────────────────────────────────────────────────────────
 const FOUNDING=5000;
-let tileCount=247;
+let tileCount=0;
 
 function fmtPrice(n){return n===0?'FREE':`$${n}`;}
 function tierNum(n){return n<=FOUNDING?0:Math.ceil((n-FOUNDING)/1000);}
@@ -1043,14 +1001,7 @@ const fpSpots = Array.from({length: FP_SPOTS}, (_, i) => ({
 }));
 
 // Pre-populate a few spots for demo realism
-const FP_DEMO = [
-  {id:1, name:'TechCorp', msg:'techcorp.io', bid:142, bidders:8, img:36},
-  {id:2, name:'Alex Chen', msg:'Founder & CEO', bid:95, bidders:5, img:22},
-  {id:3, name:'Sarah Kim', msg:'Seoul → World', bid:78, bidders:4, img:4},
-  {id:5, name:'Max Müller', msg:'Berlin Startup Hub', bid:55, bidders:3, img:40},
-  {id:8, name:'Priya Sharma', msg:'Building in public', bid:40, bidders:2, img:8},
-  {id:12, name:'Oliver Bennett', msg:'Sydney · Surf & Build', bid:25, bidders:2, img:20},
-];
+const FP_DEMO = [];
 FP_DEMO.forEach(d => {
   const s = fpSpots[d.id-1];
   s.name = d.name; s.msg = d.msg; s.bid = d.bid;
@@ -1232,14 +1183,14 @@ async function loadRealTiles(){
     const {data:tiles}=await sb.from('wyb_tiles').select('*').eq('status','unlocked').order('unlocked_at',{ascending:true}).limit(500);
     if(!tiles||tiles.length===0)return;
     // Update stats
-    animN('s-tiles',Math.max(247,247+tiles.length));
+    animN('s-tiles',tiles.length);
     const today=new Date().toDateString();
     const todayCount=tiles.filter(t=>new Date(t.unlocked_at).toDateString()===today).length;
-    if(todayCount>0)animN('s-today',41+todayCount);
+    if(todayCount>0)animN('s-today',todayCount);
     // Add real tiles to wall
     tiles.forEach((t,i)=>{
       const p={name:t.name,loc:t.location||'Earth 🌍',msg:t.message||'Part of the 2026 World Yearbook.',photoUrl:t.photo_url,img:Math.floor(Math.random()*70)+1,country:'c-us'};
-      const tile=createFilledTile(p,247+i);
+      const tile=createFilledTile(p,i);
       const empties=grid.querySelectorAll('.tile.empty');
       if(empties[0])grid.replaceChild(tile,empties[0]);
     });
@@ -1249,7 +1200,7 @@ async function loadRealTiles(){
 // ── INIT ──────────────────────────────────────────────────────────────────────
 (async function init(){
   await handleRefClick();
-  animN('s-tiles',247);animN('s-countries',31);animN('s-today',41);
+  animN('s-tiles',0);animN('s-countries',0);animN('s-today',0);
   await loadRealTiles();
 })();
 </script>
