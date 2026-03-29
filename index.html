@@ -366,7 +366,7 @@ footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--text
 
   <!-- Grid -->
   <div class="wall-grid" id="wall-grid"></div>
-  <div style="text-align:center;padding:0 0 24px"><button class="btn-ghost" style="padding:10px 24px;font-size:.82rem" onclick="loadMore()">Load More</button></div>
+
 </div>
 
 <!-- TOOLTIP -->
@@ -738,8 +738,7 @@ function renderTiles(count=300){
   }
 }
 
-function loadMore(){renderTiles(200);}
-renderTiles(200);
+function loadMore(){} // no-op — wall only shows real submissions
 try{updatePricing(tileCount);}catch(e){}
 
 // Live simulation disabled — map lights on real submissions only
@@ -966,8 +965,7 @@ async function unlock(){
     if(data) p={name:data.name,loc:data.location||'Earth 🌍',msg:data.message||'In the The World Yearbook.',img:data.photo_url?null:Math.floor(Math.random()*70)+1,photoUrl:data.photo_url,country:'c-us'};
   } catch(e){}
   const tile=createFilledTile(p,tileCount-1);
-  const empties=grid.querySelectorAll('.tile.empty');
-  if(empties[0])grid.replaceChild(tile,empties[0]);
+  grid.appendChild(tile);
   rippleTile(tile);addActivity(p);
   toast(`🔓 ${pendingName}'s tile just went live!`);
   loadRealTiles();
@@ -1201,12 +1199,12 @@ async function loadRealTiles(){
     animN('s-today',todayCount);
     // Add real tiles to wall
     seedTicker(tiles);
+    // Clear grid — only show real submissions
+    grid.innerHTML = '';
     tiles.forEach((t,i)=>{
       const p={name:t.name,loc:t.location||'Earth 🌍',msg:t.message||'Part of the 2026 World Yearbook.',photoUrl:t.photo_url,img:i%6,country:'c-us'};
       const tile=createFilledTile(p,i);
-      const empties=grid.querySelectorAll('.tile.empty');
-      if(empties[0])grid.replaceChild(tile,empties[0]);
-      // Add real map light — random coords until geocoding is wired
+      grid.appendChild(tile);
       const lat=(Math.random()*140)-70;
       const lon=(Math.random()*360)-180;
       addMapLight(lat,lon,false);
