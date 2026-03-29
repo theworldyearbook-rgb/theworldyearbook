@@ -391,10 +391,18 @@ footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--text
     </div>
     <input type="file" id="file-in" accept="image/*" style="display:none" onchange="onFS(event)"/>
     <div class="fg"><label>Your Name</label><input type="text" id="inp-name" placeholder="e.g. Alex Chen"/></div>
-    <div class="fg"><label>Country / City</label><input type="text" id="inp-loc" placeholder="e.g. Tokyo, Japan" id="inp-loc"/></div>
-    <div class="fg"><label>Your Message (shown on hover)</label><textarea id="inp-msg" placeholder="e.g. &quot;Living proof that every face has a story.&quot;"></textarea></div>
+    <div class="fg" style="display:flex;gap:8px">
+      <div style="flex:1"><label>City</label><input type="text" id="inp-city" placeholder="e.g. Tokyo"/></div>
+      <div style="width:80px"><label>State</label><input type="text" id="inp-state" placeholder="e.g. CA" maxlength="4"/></div>
+    </div>
+    <div class="fg"><label>Country <span style="color:var(--accent)">*</span></label><select id="inp-country"><option value="">Select your country…</option></select></div>
+    <div class="fg"><label>Your Message <span style="color:#333;font-weight:400;text-transform:none;letter-spacing:0">(shown on hover · optional)</span></label><textarea id="inp-msg" placeholder="e.g. Living proof that every face has a story." style="min-height:52px"></textarea></div>
+    <div style="background:#0d0d0d;border:1px solid #1e1e1e;border-radius:8px;padding:10px 12px;margin-bottom:12px;display:flex;gap:10px;align-items:flex-start">
+      <input type="checkbox" id="inp-consent" style="margin-top:3px;accent-color:var(--accent);flex-shrink:0"/>
+      <label for="inp-consent" style="font-size:.72rem;color:#666;line-height:1.5;cursor:pointer">I agree to the <a href="#" style="color:#555;text-decoration:underline">community guidelines</a>. My photo and name will be displayed publicly. I confirm my submission does not contain inappropriate, offensive, or explicit content.</label>
+    </div>
     <button class="btn-primary" id="submit-btn" style="width:100%;padding:14px;font-size:1rem" onclick="submitTile()">Get My Yearbook Spot →</button>
-    <p class="modal-footer">Free to claim · Share once to unlock · <a href="#" style="color:var(--muted);text-decoration:underline">Guidelines</a></p>
+    <p class="modal-footer">Free to claim · Share once to unlock</p>
   </div>
 </div>
 
@@ -581,6 +589,14 @@ else{mapImg.addEventListener('load',startMap);mapImg.addEventListener('error',st
 window.addEventListener('resize',resizeDotCanvas);
 
 // Geolocation
+// Country list
+const COUNTRIES=["Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cabo Verde","Cambodia","Cameroon","Canada","Central African Republic","Chad","Chile","China","Colombia","Comoros","Congo","Costa Rica","Croatia","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia","Fiji","Finland","France","Gabon","Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Romania","Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"];
+(function populateCountries(){
+  const sel=document.getElementById('inp-country');
+  if(!sel)return;
+  COUNTRIES.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});
+})();
+
 fetch('https://ipapi.co/json/')
   .then(r=>r.json())
   .then(d=>{
@@ -588,7 +604,14 @@ fetch('https://ipapi.co/json/')
       userLoc=[d.latitude,d.longitude];
       addMapLight(d.latitude,d.longitude,true);
     }
-    if(d.city&&d.country_name)document.getElementById('inp-loc').placeholder=`${d.city}, ${d.country_name}`;
+    if(d.city)el('inp-city')&&(el('inp-city').placeholder=d.city);
+    if(d.country_name){
+      const sel=el('inp-country');
+      if(sel){
+        const opt=Array.from(sel.options).find(o=>o.value===d.country_name);
+        if(opt)sel.value=d.country_name;
+      }
+    }
   }).catch(()=>{});
 
 // ── ACTIVITY TICKER ───────────────────────────────────────────────────────────
@@ -800,10 +823,18 @@ async function uploadPhoto(file, refId) {
 }
 
 async function submitTile(){
-  const name=document.getElementById('inp-name').value.trim();
-  const loc=document.getElementById('inp-loc').value.trim();
-  const msg=document.getElementById('inp-msg').value.trim();
-  if(!name){document.getElementById('inp-name').focus();return;}
+  const name=(el('inp-name')||{}).value?.trim()||'';
+  const city=(el('inp-city')||{}).value?.trim()||'';
+  const state=(el('inp-state')||{}).value?.trim()||'';
+  const country=(el('inp-country')||{}).value?.trim()||'';
+  const msg=(el('inp-msg')||{}).value?.trim()||'';
+  const consent=el('inp-consent')?.checked;
+  if(!name){el('inp-name').focus();return;}
+  if(!country){el('inp-country').focus();toast('Please select your country');return;}
+  if(!consent){toast('Please agree to the community guidelines');return;}
+  // Build display location string
+  const locParts=[city,state,country].filter(Boolean);
+  const loc=locParts.join(', ');
 
   const btn=document.getElementById('submit-btn');
   btn.textContent='Saving…';btn.disabled=true;
@@ -818,8 +849,12 @@ async function submitTile(){
     }
 
     const { error }=await sb.from('wyb_tiles').insert({
-      ref_code: pendingRefId, name, location: loc||null,
-      message: msg||null, photo_url: photoUrl, status: 'pending'
+      ref_code: pendingRefId, name,
+      location: loc||null,
+      country: country||null,
+      message: msg||null,
+      photo_url: photoUrl,
+      status: 'pending'
     });
     if(error) throw error;
 
@@ -1136,12 +1171,18 @@ async function handleRefClick(){
 async function loadRealTiles(){
   try {
     const {data:tiles}=await sb.from('wyb_tiles').select('*').eq('status','unlocked').order('unlocked_at',{ascending:true}).limit(500);
+    const count=tiles?tiles.length:0;
+    animN('s-tiles',count);
+    if(el('founding-n'))el('founding-n').textContent=count.toLocaleString();
+    if(el('prog-fill'))el('prog-fill').style.width=Math.min((count/5000)*100,100)+'%';
     if(!tiles||tiles.length===0)return;
-    // Update stats
-    animN('s-tiles',tiles.length);
+    // Countries from dedicated column
+    const countries=new Set(tiles.map(t=>t.country).filter(Boolean));
+    animN('s-countries',countries.size);
+    // Today count
     const today=new Date().toDateString();
-    const todayCount=tiles.filter(t=>new Date(t.unlocked_at).toDateString()===today).length;
-    if(todayCount>0)animN('s-today',todayCount);
+    const todayCount=tiles.filter(t=>t.unlocked_at&&new Date(t.unlocked_at).toDateString()===today).length;
+    animN('s-today',todayCount);
     // Add real tiles to wall
     tiles.forEach((t,i)=>{
       const p={name:t.name,loc:t.location||'Earth 🌍',msg:t.message||'Part of the 2026 World Yearbook.',photoUrl:t.photo_url,img:i%6,country:'c-us'};
